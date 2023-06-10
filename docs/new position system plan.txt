@@ -1,0 +1,34 @@
+Plan for new position system.
+-- 6/10/23 
+
+Adjacency lists seem like the go to data structures for representing graphs and facilitating their traversal.
+
+Adjacency list representing each position and the positions adjacent to them.
+
+In this case, our nodes are our positions.
+
+two dimensional array for allowing position index lookup by coordinates
+
+positionCoordinates array allowing coordinates look up by position index
+
+WHY DO WE NEED THESE?
+
+- Coordinates 
+- - help determine spatial relationships between positions i.e. is a node above, to the left, below or to the right of another node.
+- - Lets us know where a position is on the screen, so we know what screen coordinates to draw an object at the given position.
+- Adjacency List
+- - Easily determine paths and distance between positions.
+
+- Spatial Relationships
+- - Navigating the selector. 
+- - - The selector is supposed to move between positions according to a given a spatial relationship in response to controller input,
+- - - even if that position doesn't exist as a node on the graph.
+- Drawing
+- - We need a way to compute the screen coordinates to draw something at a given node.
+
+- Units should exist at graphPosition. The selector should exist at screenPosition.
+
+TO-DO
+
+- Take map data and build graph data structure out of it
+- 
