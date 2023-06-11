@@ -32,3 +32,40 @@ TO-DO
 
 - Take map data and build graph data structure out of it
 - 
+
+
+
+Graph positions vs screen positions
+
+-Selector navigates by screen position
+-Game objects exist at graph positions.
+
+WHY THESE ABSTRACTIONS?
+
+Screen Position
+- Selector
+- - Needs to navigate by screen position for ease of user experience. Selector position should not be limited
+- - by what's navigable for objects. It should be able to pass over walls and things not on the graph for ease of use.
+- Drawing
+- - Need to be able to translate a graph position into screen coordinates so we know where to 
+- - draw something at a given graph position on the screen.
+
+Graph Position
+- Pathfinding
+- - We need to be able to determine if there is navigable path between two positions given a certain degree of seperation, 
+- - what that path is and which path is the shortest.
+- - This is a primary concern for game objects.
+
+NEED:
+
+- Look up graph position by screen position
+- Look up screen position by graph position
+
+TO-DO
+
+- Take map data and 
+- - build graph data structure out of it
+- - build mapPositionToGraphPosition table out of it
+- - build graphPositionToMapPosition table out of it
+- Set up units with graph positions.
+- Run selector logic off of new units
