@@ -69,3 +69,6 @@ TO-DO
 - - build graphPositionToMapPosition table out of it
 - Set up units with graph positions.
 - Run selector logic off of new units
+
+- Breadth-First-Search to find positions in movement range.
+- Implement movement action

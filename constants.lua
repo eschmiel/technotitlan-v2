@@ -36,3 +36,7 @@ unitActionsEnum = {
     heal = 'heal',
     magicAttack = 'magicAttack'
 }
+
+spriteFlagEnum = {
+    navigable = 0
+}

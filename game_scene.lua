@@ -9,6 +9,7 @@
 
 function init_game()
     palt(colorEnum.black, false)
+    positionManager = position.manager:buildPositionLists(level1Data.mapCoordinates)
      game_objects = {
         faction = createFaction(level1Data.faction1Units)
     }

@@ -17,13 +17,17 @@ function ui:createSelector(startingPosition)
 
     function selector:select(gameObjects)
         return {
-            position = createPositionObjectCopy(self.position),
+            graphPosition = position.manager.mapPositionToGraphPosition[self.position.x][self.position.y],
+            mapPosition = {self.position.x, self.position.y},
             unit = self:hoverTarget(gameObjects)
         }
     end
     function selector:hoverTarget(gameObjects)
-        for unit in all(gameObjects.faction) do
-            if(samePosition(unit.position, self.position)) return unit 
+        local graphPosition  = position.manager.mapPositionToGraphPosition[self.position.x][self.position.y]
+        if(graphPosition) then
+            for unit in all(gameObjects.faction) do
+                if(graphPosition == unit.position) return unit 
+            end
         end
     end
 

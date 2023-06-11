@@ -1,5 +1,6 @@
 function ui:createSelectPositionToMoveToState(unit)
-    local selectorStartPosition = createPositionObjectCopy(unit.position)
+    local mapPosition = position.manager.graphPositionToMapPosition[unit.position]
+    local selectorStartPosition = {x = mapPosition[1], y =  mapPosition[2]}
 
     local state = {
         selectedUnit = unit,
@@ -9,8 +10,8 @@ function ui:createSelectPositionToMoveToState(unit)
     function state:update(gameObjects)
         local selection = self.selector:controls(gameObjects)
         if(selection and not selection.unit) then
-            local newUnitPosition = createPositionObjectCopy(selection.position)
-            local newSelectorPosition = createPositionObjectCopy(selection.position)
+            local newUnitPosition = selection.graphPosition
+            local newSelectorPosition = {x = selection.mapPosition[1], y = selection.mapPosition[2]}
             self.selectedUnit.position = newUnitPosition
             self.selectedUnit.active = false
             local newState = ui:createSelectUnitToActState(newSelectorPosition)
@@ -23,7 +24,8 @@ function ui:createSelectPositionToMoveToState(unit)
 
         local hoverTarget = self.selector:hoverTarget(gameObjects)
         if(hoverTarget) ui.unitDetailsBottomBar:draw(hoverTarget, 0, 104)
-        highlightPosition(self.selectedUnit.position, colorEnum.yellow)
+        local mapPosition = position.manager.graphPositionToMapPosition[self.selectedUnit.position]
+        highlightPosition({x = mapPosition[1], y = mapPosition[2]}, colorEnum.yellow)
     end
 
     return state

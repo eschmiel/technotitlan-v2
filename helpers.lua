@@ -13,6 +13,13 @@ function convertPositionToPixelCoordinates(position)
     return pixelCoordinates
 end
 
+function convertMapPositionToPixelPosition(mapPosition)
+    return {
+        mapPosition[1] * spriteSideSizeInPixels,
+        mapPosition[2] * spriteSideSizeInPixels,
+    }
+end
+
 function samePosition(position1, position2)
     return position1.x == position2.x and position1.y == position2.y
 end
