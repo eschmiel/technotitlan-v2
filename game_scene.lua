@@ -27,5 +27,6 @@ function draw_game()
     
     game_objects.faction:draw()
     uiManager:draw()
+    --drawGraphPositions()
 end
 

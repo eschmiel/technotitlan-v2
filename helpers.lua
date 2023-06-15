@@ -24,12 +24,12 @@ function samePosition(position1, position2)
     return position1.x == position2.x and position1.y == position2.y
 end
 
-function highlightPosition(position, color)
-    local pixelCoordinates = convertPositionToPixelCoordinates(position)
+function highlightPosition(mapPosition, color)
+    local pixelPosition = convertMapPositionToPixelPosition(mapPosition)
 
-    rect(pixelCoordinates.originX, pixelCoordinates.originY, pixelCoordinates.endX, pixelCoordinates.endY, color)
+    rect(pixelPosition[1], pixelPosition[2], pixelPosition[1]+7, pixelPosition[2]+7, color)
 end
 
-function createPositionObjectCopy(position)
-    return {x = position.x, y=position.y}
+function makeTupleCopy(tuple)
+    return {tuple[1], tuple[2]}
 end

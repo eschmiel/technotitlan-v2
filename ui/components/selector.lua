@@ -1,6 +1,6 @@
-function ui:createSelector(startingPosition)
+function ui:createSelector(startingMapPosition)
     local selector = {
-        position = startingPosition or {x=0, y=0},
+        mapPosition = startingMapPosition or {0,0},
         stateColor = {
             default = colorEnum.brown,
             onUnit = colorEnum.pink
@@ -8,25 +8,25 @@ function ui:createSelector(startingPosition)
     }
 
     function selector:controls(gameObjects)
-        if (btnp(controllerEnum.left)) self.position.x -= 1
-        if (btnp(controllerEnum.right)) self.position.x += 1
-        if (btnp(controllerEnum.up)) self.position.y -= 1
-        if (btnp(controllerEnum.down)) self.position.y += 1
+        if (btnp(controllerEnum.left)) self.mapPosition[1] -= 1
+        if (btnp(controllerEnum.right)) self.mapPosition[1] += 1
+        if (btnp(controllerEnum.up)) self.mapPosition[2] -= 1
+        if (btnp(controllerEnum.down)) self.mapPosition[2] += 1
         if (btnp(controllerEnum.o)) return self:select(gameObjects)
     end
 
     function selector:select(gameObjects)
         return {
-            graphPosition = position.manager.mapPositionToGraphPosition[self.position.x][self.position.y],
-            mapPosition = {self.position.x, self.position.y},
+            graphPosition = position.manager.mapPositionToGraphPosition[self.mapPosition[1]][self.mapPosition[2]],
+            mapPosition = self.mapPosition,
             unit = self:hoverTarget(gameObjects)
         }
     end
     function selector:hoverTarget(gameObjects)
-        local graphPosition  = position.manager.mapPositionToGraphPosition[self.position.x][self.position.y]
+        local graphPosition  = position.manager.mapPositionToGraphPosition[self.mapPosition[1]][self.mapPosition[2]]
         if(graphPosition) then
             for unit in all(gameObjects.faction) do
-                if(graphPosition == unit.position) return unit 
+                if(graphPosition == unit.graphPosition) return unit 
             end
         end
     end
@@ -36,7 +36,7 @@ function ui:createSelector(startingPosition)
 
         if(self:hoverTarget(gameObjects)) selectorColor = self.stateColor.onUnit
 
-        highlightPosition(self.position, selectorColor)
+        highlightPosition(self.mapPosition, selectorColor)
     end
 
     return selector

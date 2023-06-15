@@ -5,15 +5,15 @@ function position.manager:buildPositionLists(mapCoordinates)
     self.graphPositionToMapPosition = {}
     self.mapPositionToGraphPosition = {}
 
-    for x=1, 16 do
+    for x=0, 16 do
         self.mapPositionToGraphPosition[x] = {}
     end
      
     local mapSideSize = 16
     for y=1, mapSideSize do
         for x=1, mapSideSize do
-            local adjustedX = x + mapCoordinates.x - 1
-            local adjustedY = y + mapCoordinates.y - 1
+            local adjustedX = x + mapCoordinates.x 
+            local adjustedY = y + mapCoordinates.y
             local mapPositionSprite = mget(adjustedX, adjustedY)
             
             if(fget(mapPositionSprite, spriteFlagEnum.navigable)) then

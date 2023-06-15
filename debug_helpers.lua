@@ -6,3 +6,9 @@ function printhTable(table, fileName, message)
         end
     end
 end
+
+function drawGraphPositions()
+    for position in all(position.manager.graphPositionToMapPosition) do
+        highlightPosition(position, colorEnum.orange)
+    end
+end
