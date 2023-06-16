@@ -4,9 +4,11 @@ __lua__
 #include main.lua
 #include game_scene.lua
 #include constants.lua
-#include helpers.lua
-#include debug_helpers.lua
-#include table_helpers.lua
+#include helpers/helpers.lua
+#include helpers/debug_helpers.lua
+#include helpers/table_helpers.lua
+#include helpers/data_structures/linked_list.lua
+#include helpers/data_structures/queue.lua
 
 #include game_objects/unit.lua
 #include game_objects/managers/faction.lua
