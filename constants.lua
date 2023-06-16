@@ -27,6 +27,7 @@ controllerEnum = {
 }
 
 spriteSideSizeInPixels = 8
+mapSideSize = 16
 
 unitActionsEnum = {
     cancel = 'cancel',
