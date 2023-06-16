@@ -44,10 +44,8 @@ function position.manager:populateGraphAdjacencyList()
     end
 end
 
--- Finish this and use it to find positions within movement range.
 function position.manager:getGraphPositionsInRange(graph, source, range)
     local graphPositionsAwayFromSource = {}
-    local edgeTo = {}
     local queue = createQueue()
 
     graphPositionsAwayFromSource[source] = 0
@@ -55,9 +53,8 @@ function position.manager:getGraphPositionsInRange(graph, source, range)
 
     while(queue.count > 0) do
         local graphPosition = queue:dequeue()
-        for adjacentPosition in all(self.graphAdjacency[graphPosition]) do
+        for adjacentPosition in all(graph[graphPosition]) do
             if(not graphPositionsAwayFromSource[adjacentPosition]) then
-                edgeTo[adjacentPosition] = graphPosition
                 graphPositionsAwayFromSource[adjacentPosition] = graphPositionsAwayFromSource[graphPosition] + 1
                 if(graphPositionsAwayFromSource[adjacentPosition] < range) then
                     queue:enqueue(adjacentPosition)
@@ -73,7 +70,7 @@ function position.manager:getGraphPositionsInRange(graph, source, range)
     end
 
     return graphPositionsInRange
-
+end
     -- This code would return an object that could retrieve the path to any graph position found in this search.
     -- It's commented out to follow YAGNI. We'll figure out how to incorporate it when we need it later.
     -- return {
