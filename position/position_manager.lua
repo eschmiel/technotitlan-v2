@@ -1,5 +1,15 @@
 position.manager = { }
 
+function position:createManager(mapCoordinates)
+    local manager = {
+        mapGraph = position.graph:createMapGraph(),
+        navGraph = position.graph:createNavGraph(mapCoordinates)
+    }
+
+    return manager
+end
+
+
 function position.manager:buildPositionLists(mapCoordinates)
     self.graphAdjacency = {}
     self.graphPositionToMapPosition = {}
@@ -87,4 +97,3 @@ end
     --         return path
     --     end
     -- }
-end

@@ -2,19 +2,19 @@ position.graph = {}
 
 function position.graph:createGraph()
     local graph = {
-        adjacencyList = {}
-        graphPositionToMapPosition = {}
-        mapPositionToGraphPosition = {}
+        adjacencyList = {},
+        graphPositionToMapPosition = {},
+        mapPositionToGraphPosition = {},
     }
 
-    for x=0, mapSideSize do
+    for x=0, mapSideSize+1 do
         graph.mapPositionToGraphPosition[x] = {}
     end
 
     return graph
 end
 
-function position.graph:buildGraphTables(graph, filterFunction)
+function position.graph:buildGraphTables(graph, filterFunction, options)
     local filter = filterFunction or function() return true end
     for y=1, mapSideSize do
         for x=1, mapSideSize do
@@ -37,10 +37,10 @@ function position.graph:populateGraphAdjacencyList(graph)
         local rightGraphPosition = graph.mapPositionToGraphPosition[x+1][y]
         local bottomGraphPosition = graph.mapPositionToGraphPosition[x][y+1]
 
-        if(leftGraphPosition) add(graph.graphAdjacency[index], leftGraphPosition)
-        if(topGraphPosition) add(graph.graphAdjacency[index], topGraphPosition)
-        if(rightGraphPosition) add(graph.graphAdjacency[index], rightGraphPosition)
-        if(bottomGraphPosition) add(graph.graphAdjacency[index], bottomGraphPosition)
+        if(leftGraphPosition) add(graph.adjacencyList[index], leftGraphPosition)
+        if(topGraphPosition) add(graph.adjacencyList[index], topGraphPosition)
+        if(rightGraphPosition) add(graph.adjacencyList[index], rightGraphPosition)
+        if(bottomGraphPosition) add(graph.adjacencyList[index], bottomGraphPosition)
     end
 end
 

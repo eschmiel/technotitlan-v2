@@ -1,7 +1,7 @@
-function createUnit(options)
+function createUnit(positionManager, options)
     local unit = {
         type = 'tez',
-        graphPosition = position.manager.mapPositionToGraphPosition[options.position[1]][options.position[2]],
+        graphPosition = positionManager.navGraph.mapPositionToGraphPosition[options.position[1]][options.position[2]],
         sprite = 13,
 
         active = true,
@@ -27,10 +27,10 @@ function createUnit(options)
 
     unit.hp = unit.maxHP
 
-    function unit:draw()
+    function unit:draw(positionManager)
         if(not self.active) pal(colorEnum.black, colorEnum.grey)
 
-        local mapPosition = position.manager.graphPositionToMapPosition[self.graphPosition]
+        local mapPosition = positionManager.navGraph.graphPositionToMapPosition[self.graphPosition]
         local pixelPosition = convertMapPositionToPixelPosition(mapPosition)
 
         spr(self.sprite, pixelPosition[1], pixelPosition[2])

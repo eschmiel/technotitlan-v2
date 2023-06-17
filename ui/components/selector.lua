@@ -7,23 +7,23 @@ function ui:createSelector(startingMapPosition)
         }
     }
 
-    function selector:controls(gameObjects)
+    function selector:controls(positionManager, gameObjects)
         if (btnp(controllerEnum.left)) self.mapPosition[1] -= 1
         if (btnp(controllerEnum.right)) self.mapPosition[1] += 1
         if (btnp(controllerEnum.up)) self.mapPosition[2] -= 1
         if (btnp(controllerEnum.down)) self.mapPosition[2] += 1
-        if (btnp(controllerEnum.o)) return self:select(gameObjects)
+        if (btnp(controllerEnum.o)) return self:select(positionManager, gameObjects)
     end
 
-    function selector:select(gameObjects)
+    function selector:select(positionManager, gameObjects)
         return {
-            graphPosition = position.manager.mapPositionToGraphPosition[self.mapPosition[1]][self.mapPosition[2]],
+            graphPosition = positionManager.navGraph.mapPositionToGraphPosition[self.mapPosition[1]][self.mapPosition[2]],
             mapPosition = self.mapPosition,
-            unit = self:hoverTarget(gameObjects)
+            unit = self:hoverTarget(positionManager, gameObjects)
         }
     end
-    function selector:hoverTarget(gameObjects)
-        local graphPosition  = position.manager.mapPositionToGraphPosition[self.mapPosition[1]][self.mapPosition[2]]
+    function selector:hoverTarget(positionManager, gameObjects)
+        local graphPosition  = positionManager.navGraph.mapPositionToGraphPosition[self.mapPosition[1]][self.mapPosition[2]]
         if(graphPosition) then
             for unit in all(gameObjects.faction) do
                 if(graphPosition == unit.graphPosition) return unit 
@@ -31,10 +31,10 @@ function ui:createSelector(startingMapPosition)
         end
     end
 
-    function selector:draw(gameObjects)
+    function selector:draw(positionManager, gameObjects)
         local selectorColor = self.stateColor.default
 
-        if(self:hoverTarget(gameObjects)) selectorColor = self.stateColor.onUnit
+        if(self:hoverTarget(positionManager, gameObjects)) selectorColor = self.stateColor.onUnit
 
         highlightPosition(self.mapPosition, selectorColor)
     end

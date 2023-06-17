@@ -9,12 +9,12 @@
 
 function init_game()
     palt(colorEnum.black, false)
-    positionManager = position.manager:buildPositionLists(level1Data.mapCoordinates)
+    positionManager = position:createManager(level1Data.mapCoordinates)
      game_objects = {
-        faction = createFaction(level1Data.faction1Units)
+        faction = createFaction(positionManager, level1Data.faction1Units)
     }
     local startingState = ui:createStartPlayerTurnState()
-    uiManager = ui:createUIManager(game_objects, startingState)
+    uiManager = ui:createUIManager(positionManager, game_objects, startingState)
 end
 
 function update_game()
@@ -25,7 +25,7 @@ function draw_game()
     cls(colorEnum.navy)
     map(96,0)
     
-    game_objects.faction:draw()
+    game_objects.faction:draw(positionManager)
     uiManager:draw()
     --drawGraphPositions()
 end

@@ -5,12 +5,12 @@ function ui:createUnitActionMenuState(unit)
         selectedUnit = unit
     }
 
-    function state:update()
+    function state:update(positionManager)
         local buttonEvent = self.unitActionMenu:controls()
-        local selectorMapPosition = makeTupleCopy(position.manager.graphPositionToMapPosition[self.selectedUnit.graphPosition])
+        local selectorMapPosition = makeTupleCopy(positionManager.navGraph.graphPositionToMapPosition[self.selectedUnit.graphPosition])
 
         if(buttonEvent == unitActionsEnum.move) then
-            local newState = ui:createSelectPositionToMoveToState(self.selectedUnit)
+            local newState = ui:createSelectPositionToMoveToState(positionManager, self.selectedUnit)
             return newState
         end
         if(buttonEvent == unitActionsEnum.wait) then
@@ -24,10 +24,10 @@ function ui:createUnitActionMenuState(unit)
         end
     end
 
-    function state:draw()
+    function state:draw(positionManager)
         self.unitActionMenu:draw(5, 5)
         ui.unitDetailsBottomBar:draw(self.selectedUnit, 0, 104)
-        local mapPosition = position.manager.graphPositionToMapPosition[self.selectedUnit.graphPosition]
+        local mapPosition = positionManager.navGraph.graphPositionToMapPosition[self.selectedUnit.graphPosition]
         highlightPosition(mapPosition, colorEnum.yellow)
     end
 

@@ -3,25 +3,25 @@ function ui:createSelectUnitToActState(selectorStartPosition)
         selector = ui:createSelector(selectorStartPosition)
     }
 
-    function state:update(gameObjects)
-        local selection = self.selector:controls(gameObjects)
+    function state:update(positionManager, gameObjects)
+        local selection = self.selector:controls(positionManager, gameObjects)
         if(selection and selection.unit and selection.unit.active) then
             local newState = ui:createUnitActionMenuState(selection.unit)
             return newState
         end
     end
 
-    function state:draw(gameObjects)
-        local hoverTarget = self.selector:hoverTarget(gameObjects)
+    function state:draw(positionManager, gameObjects)
+        local hoverTarget = self.selector:hoverTarget(positionManager, gameObjects)
 
         if(hoverTarget and hoverTarget.active) then
-            local movementOptions = position.manager:getGraphPositionsInRange(position.manager.graphAdjacency, hoverTarget.graphPosition, hoverTarget.movement)
+            local movementOptions = position.manager:getGraphPositionsInRange(positionManager.navGraph.adjacencyList, hoverTarget.graphPosition, hoverTarget.movement)
             for graphPosition in all(movementOptions) do
-                highlightPosition(position.manager.graphPositionToMapPosition[graphPosition], colorEnum.green)
+                highlightPosition(positionManager.navGraph.graphPositionToMapPosition[graphPosition], colorEnum.green)
             end
         end
 
-        self.selector:draw(gameObjects)
+        self.selector:draw(positionManager, gameObjects)
 
         if(hoverTarget) ui.unitDetailsBottomBar:draw(hoverTarget, 0, 104)
     end
