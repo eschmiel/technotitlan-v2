@@ -15,7 +15,7 @@ function createUnit(positionManager, options)
         magicDefence = 3,
 
         physicalAttackRange = 1,
-        magicAttackRange = 2,
+        magicAttackRange = 3,
 
         actions = {
             'move',
@@ -49,27 +49,34 @@ function createUnit(positionManager, options)
         end
     end
 
-    function unit:mapGraphPositionsInPhysicalAttackRange(positionManager)
-        local range = self.movement + self.physicalAttackRange
-        local mapGraphPosition = positionManager:getMapGraphPositionFromNavGraphPosition(self.graphPosition)
+    -- function unit:mapGraphPositionsInPhysicalAttackRange(positionManager)
+    --     local range = self.movement + self.physicalAttackRange
+    --     local mapGraphPosition = positionManager:getMapGraphPositionFromNavGraphPosition(self.graphPosition)
 
-        return position.graph:getGraphPositionsInRange(positionManager.mapGraph.adjacencyList, mapGraphPosition, range)
-    end
+    --     return position.graph:getGraphPositionsInRange(positionManager.mapGraph.adjacencyList, mapGraphPosition, range)
+    -- end
 
-    function unit:mapGraphPositionsInMagicAttackRange(positionManager)
-        local range = self.movement + self.magicAttackRange
-        local mapGraphPosition = positionManager:getMapGraphPositionFromNavGraphPosition(self.graphPosition)
+    function unit:mapGraphPositionsInActionRange(positionManager, range)
+        local movementOptions = self:movementOptions(positionManager)
 
-        return position.graph:getGraphPositionsInRange(positionManager.mapGraph.adjacencyList, mapGraphPosition, range)
+        local movementOptionsAsMapGraphPositions = positionManager:convertNavGraphPositionsTableToMapGraphPositionsTable(movementOptions)
+
+        local mapGraphPositionsInRange = position.manager:getGraphPositionsInRangeOfGraph(positionManager.mapGraph.adjacencyList, movementOptionsAsMapGraphPositions, range)
+
+        local actionOptions = {}
+        for graphPosition, adjacentGraphPositions in ipairs(positionManager.navGraph.adjacencyList) do
+            local mapGraphPosition = positionManager:getMapGraphPositionFromNavGraphPosition(graphPosition)
+            if(tableIncludesValue(mapGraphPositionsInRange, mapGraphPosition)) add(actionOptions, mapGraphPosition)
+        end
+
+        return actionOptions
     end
 
     function unit:highlightMapGraphPositionsInAttackRange(positionManager)
-        local mapGraphPositionsInAttackRange
-        if(self.physicalAttackRange > self.magicAttackRange) then
-            mapGraphPositionsInAttackRange = self:mapGraphPositionsInPhysicalAttackRange(positionManager)
-        else 
-            mapGraphPositionsInAttackRange = self:mapGraphPositionsInMagicAttackRange(positionManager)
-        end
+        local range = self.physicalAttackRange
+        if (range < self.magicAttackRange) range = self.magicAttackRange
+
+        local mapGraphPositionsInAttackRange = self:mapGraphPositionsInActionRange(positionManager, range)
 
         for graphPosition in all(mapGraphPositionsInAttackRange) do
             highlightPosition(positionManager.mapGraph.graphPositionToMapPosition[graphPosition], colorEnum.red)

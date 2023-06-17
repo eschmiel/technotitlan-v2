@@ -11,6 +11,15 @@ function position:createManager(mapCoordinates)
         return self.mapGraph.mapPositionToGraphPosition[mapPosition[1]][mapPosition[2]]
     end
 
+    function manager:convertNavGraphPositionsTableToMapGraphPositionsTable(navGraphPositionsTable)
+        local mapGraphPositionsTable = {}
+        for navGraphPosition in all(navGraphPositionsTable) do
+            local mapGraphPosition = self:getMapGraphPositionFromNavGraphPosition(navGraphPosition)
+            add(mapGraphPositionsTable, mapGraphPosition)
+        end
+        return mapGraphPositionsTable
+    end
+
     return manager
 end
 
@@ -22,6 +31,36 @@ function position.manager:getGraphPositionsInRange(graph, source, range)
 
     graphPositionsAwayFromSource[source] = 0
     queue:enqueue(source)
+
+    while(queue.count > 0) do
+        local graphPosition = queue:dequeue()
+        for adjacentPosition in all(graph[graphPosition]) do
+            if(not graphPositionsAwayFromSource[adjacentPosition]) then
+                graphPositionsAwayFromSource[adjacentPosition] = graphPositionsAwayFromSource[graphPosition] + 1
+                if(graphPositionsAwayFromSource[adjacentPosition] < range) then
+                    queue:enqueue(adjacentPosition)
+                end
+            end
+        end
+    end
+
+    local graphPositionsInRange = {}
+
+    for key, value in pairs(graphPositionsAwayFromSource) do
+        add(graphPositionsInRange, key)
+    end
+
+    return graphPositionsInRange
+end
+
+function position.manager:getGraphPositionsInRangeOfGraph(graph, sourceGraph, range)
+    local graphPositionsAwayFromSource = {}
+    local queue = createQueue()
+
+    for graphPosition in all(sourceGraph) do
+        graphPositionsAwayFromSource[graphPosition] = 0
+        queue:enqueue(graphPosition)
+    end
 
     while(queue.count > 0) do
         local graphPosition = queue:dequeue()
