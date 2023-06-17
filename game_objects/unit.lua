@@ -15,7 +15,7 @@ function createUnit(positionManager, options)
         magicDefence = 3,
 
         physicalAttackRange = 1,
-        magicAttackRange = 3,
+        magicAttackRange = 2,
 
         actions = {
             'move',
@@ -36,6 +36,44 @@ function createUnit(positionManager, options)
         spr(self.sprite, pixelPosition[1], pixelPosition[2])
         pal()
         palt(colorEnum.black, false)
+    end
+
+    function unit:movementOptions(positionManager)
+        return position.graph:getGraphPositionsInRange(positionManager.navGraph.adjacencyList, self.graphPosition, self.movement)
+    end
+
+    function unit:highlightMovementOptions(positionManager)
+        local movementOptions = self:movementOptions(positionManager)
+        for graphPosition in all(movementOptions) do
+            highlightPosition(positionManager.navGraph.graphPositionToMapPosition[graphPosition], colorEnum.green)
+        end
+    end
+
+    function unit:mapGraphPositionsInPhysicalAttackRange(positionManager)
+        local range = self.movement + self.physicalAttackRange
+        local mapGraphPosition = positionManager:getMapGraphPositionFromNavGraphPosition(self.graphPosition)
+
+        return position.graph:getGraphPositionsInRange(positionManager.mapGraph.adjacencyList, mapGraphPosition, range)
+    end
+
+    function unit:mapGraphPositionsInMagicAttackRange(positionManager)
+        local range = self.movement + self.magicAttackRange
+        local mapGraphPosition = positionManager:getMapGraphPositionFromNavGraphPosition(self.graphPosition)
+
+        return position.graph:getGraphPositionsInRange(positionManager.mapGraph.adjacencyList, mapGraphPosition, range)
+    end
+
+    function unit:highlightMapGraphPositionsInAttackRange(positionManager)
+        local mapGraphPositionsInAttackRange
+        if(self.physicalAttackRange > self.magicAttackRange) then
+            mapGraphPositionsInAttackRange = self:mapGraphPositionsInPhysicalAttackRange(positionManager)
+        else 
+            mapGraphPositionsInAttackRange = self:mapGraphPositionsInMagicAttackRange(positionManager)
+        end
+
+        for graphPosition in all(mapGraphPositionsInAttackRange) do
+            highlightPosition(positionManager.mapGraph.graphPositionToMapPosition[graphPosition], colorEnum.red)
+        end
     end
 
     return unit

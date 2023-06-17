@@ -17,11 +17,9 @@ function ui:createSelectUnitToActState(selectorStartPosition)
     function state:draw(positionManager, gameObjects)
         local hoverTarget = self.selector:hoverTarget(positionManager, gameObjects)
 
-        if(hoverTarget and hoverTarget.active) then
-            local movementOptions = position.manager:getGraphPositionsInRange(positionManager.navGraph.adjacencyList, hoverTarget.graphPosition, hoverTarget.movement)
-            for graphPosition in all(movementOptions) do
-                highlightPosition(positionManager.navGraph.graphPositionToMapPosition[graphPosition], colorEnum.green)
-            end
+        if(hoverTarget and hoverTarget.active) then            
+            hoverTarget:highlightMapGraphPositionsInAttackRange(positionManager)
+            hoverTarget:highlightMovementOptions(positionManager)
         end
 
         self.selector:draw(positionManager, gameObjects)

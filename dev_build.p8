@@ -37,6 +37,7 @@ __lua__
 #include position/position_manager.lua
 #include position/graph.lua
 #include position/nav_graph.lua
+#include position/get_graph_positions_in_range.lua
 
 __gfx__
 00000000dddddddccddddddd00000000000000000000000000000000000000006666077700000707000007070000070700000000000000000400090900400000

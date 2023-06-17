@@ -6,8 +6,15 @@ function position:createManager(mapCoordinates)
         navGraph = position.graph:createNavGraph(mapCoordinates)
     }
 
+    function manager:getMapGraphPositionFromNavGraphPosition(navGraphPosition)
+        local mapPosition = self.navGraph.graphPositionToMapPosition[navGraphPosition]
+        return self.mapGraph.mapPositionToGraphPosition[mapPosition[1]][mapPosition[2]]
+    end
+
     return manager
 end
+
+
 
 function position.manager:getGraphPositionsInRange(graph, source, range)
     local graphPositionsAwayFromSource = {}
