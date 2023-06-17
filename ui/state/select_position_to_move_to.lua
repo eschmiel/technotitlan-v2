@@ -8,13 +8,16 @@ function ui:createSelectPositionToMoveToState(positionManager, unit)
     }
 
     function state:update(positionManager, gameObjects)
-        local selection = self.selector:controls(positionManager, gameObjects)
+        local selection
+        local btnEvent = self.selector:controls()
+        if (btnEvent == controllerEnum.o) selection = self.selector:select(positionManager, gameObjects)
+        if (btnEvent == controllerEnum.x) return self:createSelectUnitToActState(self.selector.mapPosition)
+
         if(selection and not selection.unit and selection.graphPosition and tableIncludesValue(self.movementOptions, selection.graphPosition)) then
-            local newSelectorMapPosition = makeTupleCopy(selection.mapPosition)
             self.selectedUnit.graphPosition = selection.graphPosition
             self.selectedUnit.active = false
-            local newState = ui:createSelectUnitToActState(newSelectorMapPosition)
-            return newState
+
+            return self:createSelectUnitToActState(selection.mapPosition)
         end
     end
 
@@ -30,6 +33,12 @@ function ui:createSelectPositionToMoveToState(positionManager, unit)
 
         local hoverTarget = self.selector:hoverTarget(positionManager, gameObjects)
         if(hoverTarget) ui.unitDetailsBottomBar:draw(hoverTarget, 0, 104)
+    end
+
+    function state:createSelectUnitToActState(mapPosition)
+        local newSelectorMapPosition = makeTupleCopy(mapPosition)
+        local newState = ui:createSelectUnitToActState(newSelectorMapPosition)
+        return newState
     end
 
     return state

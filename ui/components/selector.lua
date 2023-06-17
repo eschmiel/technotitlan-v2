@@ -12,7 +12,8 @@ function ui:createSelector(startingMapPosition)
         if (btnp(controllerEnum.right)) self.mapPosition[1] += 1
         if (btnp(controllerEnum.up)) self.mapPosition[2] -= 1
         if (btnp(controllerEnum.down)) self.mapPosition[2] += 1
-        if (btnp(controllerEnum.o)) return self:select(positionManager, gameObjects)
+        if (btnp(controllerEnum.o)) return controllerEnum.o
+        if (btnp(controllerEnum.x)) return controllerEnum.x
     end
 
     function selector:select(positionManager, gameObjects)

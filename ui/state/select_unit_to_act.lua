@@ -4,7 +4,10 @@ function ui:createSelectUnitToActState(selectorStartPosition)
     }
 
     function state:update(positionManager, gameObjects)
-        local selection = self.selector:controls(positionManager, gameObjects)
+        local btnEvent = self.selector:controls()
+        local selection
+
+        if(btnEvent == controllerEnum.o) selection = self.selector:select(positionManager, gameObjects)
         if(selection and selection.unit and selection.unit.active) then
             local newState = ui:createUnitActionMenuState(selection.unit)
             return newState
