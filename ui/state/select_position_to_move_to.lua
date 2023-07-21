@@ -4,7 +4,7 @@ function ui:createSelectPositionToMoveToState(positionManager, unit)
     local state = {
         selectedUnit = unit,
         selector = ui:createSelector(selectorStartPosition),
-        movementOptions = position.manager:getGraphPositionsInRange(positionManager.navGraph.adjacencyList, unit.graphPosition, unit.movement)
+        movementOptions = modules.graph:getGraphPositionsInRange(positionManager.navGraph, {unit.graphPosition}, unit.movement)
     }
 
     function state:update(positionManager, gameObjects)

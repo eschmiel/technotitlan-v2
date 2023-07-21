@@ -1,9 +1,24 @@
-position.manager = { }
-
+position = { }
 function position:createManager(mapCoordinates)
+
+    local buildNavGraph = function()
+        local filterFunction = function(x, y, filterMapCoordinates)
+            local adjustedX = x + filterMapCoordinates.x 
+            local adjustedY = y + filterMapCoordinates.y
+            local mapPositionSprite = mget(adjustedX, adjustedY)
+            
+            if(fget(mapPositionSprite, spriteFlagEnum.navigable)) return true
+            return false
+        end
+
+        local navGraph = modules.graph:buildGraph(filterFunction, mapCoordinates)
+
+        return navGraph
+    end
+
     local manager = {
-        mapGraph = position.graph:createMapGraph(),
-        navGraph = position.graph:createNavGraph(mapCoordinates)
+        mapGraph = modules.graph:buildGraph(),
+        navGraph = buildNavGraph()
     }
 
     function manager:getMapGraphPositionFromNavGraphPosition(navGraphPosition)
@@ -11,90 +26,23 @@ function position:createManager(mapCoordinates)
         return self.mapGraph.mapPositionToGraphPosition[mapPosition[1]][mapPosition[2]]
     end
 
-    function manager:convertNavGraphPositionsTableToMapGraphPositionsTable(navGraphPositionsTable)
-        local mapGraphPositionsTable = {}
-        for navGraphPosition in all(navGraphPositionsTable) do
+    function manager:convertNavGraphPositionsToMapGraphPositions(navGraphPositionsList)
+        local mapGraphPositionsList = {}
+        for navGraphPosition in all(navGraphPositionsList) do
             local mapGraphPosition = self:getMapGraphPositionFromNavGraphPosition(navGraphPosition)
-            add(mapGraphPositionsTable, mapGraphPosition)
+            add(mapGraphPositionsList, mapGraphPosition)
         end
-        return mapGraphPositionsTable
+        return mapGraphPositionsList
+    end
+
+    function manager:getOnlyMapGraphPositionsAlsoInNavGraph(mapGraphPositionList) 
+        local mapGraphPositionsAlsoInNavGraph = {}
+            for graphPosition, adjacentGraphPositions in ipairs(self.navGraph.adjacencyList) do
+                local mapGraphPosition = self:getMapGraphPositionFromNavGraphPosition(graphPosition)
+                if(tableIncludesValue(mapGraphPositionList, mapGraphPosition)) add(mapGraphPositionsAlsoInNavGraph, mapGraphPosition)
+            end
+        return mapGraphPositionsAlsoInNavGraph
     end
 
     return manager
 end
-
-
-
-function position.manager:getGraphPositionsInRange(graph, source, range)
-    local graphPositionsAwayFromSource = {}
-    local queue = createQueue()
-
-    graphPositionsAwayFromSource[source] = 0
-    queue:enqueue(source)
-
-    while(queue.count > 0) do
-        local graphPosition = queue:dequeue()
-        for adjacentPosition in all(graph[graphPosition]) do
-            if(not graphPositionsAwayFromSource[adjacentPosition]) then
-                graphPositionsAwayFromSource[adjacentPosition] = graphPositionsAwayFromSource[graphPosition] + 1
-                if(graphPositionsAwayFromSource[adjacentPosition] < range) then
-                    queue:enqueue(adjacentPosition)
-                end
-            end
-        end
-    end
-
-    local graphPositionsInRange = {}
-
-    for key, value in pairs(graphPositionsAwayFromSource) do
-        add(graphPositionsInRange, key)
-    end
-
-    return graphPositionsInRange
-end
-
-function position.manager:getGraphPositionsInRangeOfGraph(graph, sourceGraph, range)
-    local graphPositionsAwayFromSource = {}
-    local queue = createQueue()
-
-    for graphPosition in all(sourceGraph) do
-        graphPositionsAwayFromSource[graphPosition] = 0
-        queue:enqueue(graphPosition)
-    end
-
-    while(queue.count > 0) do
-        local graphPosition = queue:dequeue()
-        for adjacentPosition in all(graph[graphPosition]) do
-            if(not graphPositionsAwayFromSource[adjacentPosition]) then
-                graphPositionsAwayFromSource[adjacentPosition] = graphPositionsAwayFromSource[graphPosition] + 1
-                if(graphPositionsAwayFromSource[adjacentPosition] < range) then
-                    queue:enqueue(adjacentPosition)
-                end
-            end
-        end
-    end
-
-    local graphPositionsInRange = {}
-
-    for key, value in pairs(graphPositionsAwayFromSource) do
-        add(graphPositionsInRange, key)
-    end
-
-    return graphPositionsInRange
-end
-    -- This code would return an object that could retrieve the path to any graph position found in this search.
-    -- It's commented out to follow YAGNI. We'll figure out how to incorporate it when we need it later.
-    -- return {
-    --     source = source,
-    --     graphPositionsAwayFromSource = graphPositionsAwayFromSource,
-    --     edgeTo = edgeTo,
-    --     pathToGraphPosition = function(self, graphPosition)
-    --         local path = { graphPosition }
-    --         local current = graphPosition
-    --         while(path[#path] !== self.source) do
-    --             current = self.edgeTo[current]
-    --             add(path, self.edgeTo[current])
-    --         end
-    --         return path
-    --     end
-    -- }

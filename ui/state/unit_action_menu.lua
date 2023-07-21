@@ -25,6 +25,7 @@ function ui:createUnitActionMenuState(unit)
     end
 
     function state:draw(positionManager)
+   --     if (self.unitActionMenu.selectedAction == unitActionsEnum.attack)
         self.unitActionMenu:draw(5, 5)
         ui.unitDetailsBottomBar:draw(self.selectedUnit, 0, 104)
         local mapPosition = positionManager.navGraph.graphPositionToMapPosition[self.selectedUnit.graphPosition]

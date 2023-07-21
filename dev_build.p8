@@ -33,11 +33,14 @@ __lua__
 #include ui/state/unit_action_menu.lua
 #include ui/state/select_position_to_move_to.lua
 
-#include position/position_module.lua
 #include position/position_manager.lua
-#include position/graph.lua
-#include position/nav_graph.lua
-#include position/get_graph_positions_in_range.lua
+
+#include modules/modules.lua
+#include modules/graph/graph.lua
+#include modules/ui/ui.lua
+#include modules/ui/positions/positions.lua
+
+#include helpers/unit_helpers.lua
 
 __gfx__
 00000000dddddddccddddddd00000000000000000000000000000000000000006666077700000707000007070000070700000000000000000400090900400000

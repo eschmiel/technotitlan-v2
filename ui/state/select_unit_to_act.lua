@@ -18,8 +18,8 @@ function ui:createSelectUnitToActState(selectorStartPosition)
         local hoverTarget = self.selector:hoverTarget(positionManager, gameObjects)
 
         if(hoverTarget and hoverTarget.active) then            
-            hoverTarget:highlightMapGraphPositionsInAttackRange(positionManager)
-            hoverTarget:highlightMovementOptions(positionManager)
+            unit_helpers:highlightPositionsInAttackRange(hoverTarget, colorEnum.red)
+            unit_helpers:highlightPositionsInMovementRange(hoverTarget, colorEnum.green)
         end
 
         self.selector:draw(positionManager, gameObjects)
