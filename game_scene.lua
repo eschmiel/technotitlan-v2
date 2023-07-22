@@ -18,10 +18,15 @@ function init_game()
     }
     local startingState = ui:createStartPlayerTurnState()
     uiManager = ui:createUIManager(positionManager, game_objects, startingState)
+
+    local selectorController = systems.controllers:createSelectorController()
+    local controllerSystem = systems.controllers:createControllerSystem(selectorController)
+    systems:register(controllerSystem)
 end
 
 function update_game()
     uiManager:update()
+    systems:run()
 end
 
 function draw_game()

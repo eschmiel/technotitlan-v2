@@ -12,3 +12,11 @@ function drawGraphPositions()
         highlightPosition(position, colorEnum.orange)
     end
 end
+
+function examineTable(table)
+    printh('looking at table')
+    for k, v in pairs(table) do 
+        printh('k: '..k)
+        printh(v)
+    end
+end
