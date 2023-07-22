@@ -3,6 +3,10 @@ systems.gameplay = {
         local system = {
             state = startingState,
 
+            update = function(self)
+                if(self.state.update) self.state:update()
+            end,
+
             receiveMessage = function(self, message)
                 if(message.type == messageTypesEnum.setNewGameplayState) then self:setNewGameplayState(message.value)
                 elseif(self.state.receiveMessage) then self.state:receiveMessage(message)

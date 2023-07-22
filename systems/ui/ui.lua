@@ -6,6 +6,7 @@ systems.ui = {
                     local data = message.value
                     if(data.uiElement == uiElementsEnum.highlightPosition) modules.ui.positions:highlightPositions({data.position}, data.color)
                     if(data.uiElement == uiElementsEnum.unitDetails) ui.unitDetailsBottomBar:draw(data.unit, 0, 104)
+                    if(data.uiElement == uiElementsEnum.newTurnStartNotice) ui:createNewTurnStartNotice()
                 end
             end
         }
@@ -16,5 +17,6 @@ systems.ui = {
 
 uiElementsEnum = {
     highlightPosition = 'highlight position',
-    unitDetails = 'unit details'
+    unitDetails = 'unit details',
+    newTurnStartNotice = 'new turn start notice'
 }
