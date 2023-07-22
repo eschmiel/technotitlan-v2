@@ -1,20 +1,12 @@
 systems.gameplay = {
-    createGameplaySystem = function(self)
+    createGameplaySystem = function(self, startingState)
         local system = {
-            receiveMessage = function(self, message)
-                if(message.type == messageTypesEnum.selectorPosition) then
-                    systems.messenger:sendMessage({
-                        type = messageTypesEnum.renderUI,
-                        value = {
-                            uiElement = uiElementsEnum.highlightPosition,
-                            color = colorEnum.brown,
-                            position = message.value
-                        }
-                    })
-                end
-            end
-        }
+            state = startingState,
 
+            receiveMessage = function(self, message)
+                self.state:receiveMessage(message)    
+            end,
+        }
         return system
     end
 }

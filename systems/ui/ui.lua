@@ -3,13 +3,10 @@ systems.ui = {
         local system = {
             receiveMessage = function(self, message)
                 if(message.type == messageTypesEnum.renderUI) then
-                    if(message.value.uiElement == uiElementsEnum.highlightPosition) modules.ui.positions:highlightPositions({message.value.position}, message.value.color)
+                    local data = message.value
+                    if(data.uiElement == uiElementsEnum.highlightPosition) modules.ui.positions:highlightPositions({data.position}, data.color)
+                    if(data.uiElement == uiElementsEnum.unitDetails) ui.unitDetailsBottomBar:draw(data.unit, 0, 104)
                 end
-            end,
-
-            renderByMessage = function(self, message)
-                local data = message.value
-                if(data.uiElement == uiElementsEnum.highlightPosition) modules.ui.positions:highlightPositions({data.position}, data.color)
             end
         }
 
@@ -18,5 +15,6 @@ systems.ui = {
 }
 
 uiElementsEnum = {
-    highlightPosition = 'highlight position'
+    highlightPosition = 'highlight position',
+    unitDetails = 'unit details'
 }
