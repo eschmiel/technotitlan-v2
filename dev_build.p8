@@ -49,7 +49,7 @@ __lua__
 #include systems/ui/ui.lua
 
 #include systems/gameplay/state/state.lua
-#include systems/gameplay/state/select_unit.lua
+#include systems/gameplay/state/select_unit_to_act.lua
 
 
 __gfx__

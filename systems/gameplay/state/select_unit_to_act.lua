@@ -1,4 +1,4 @@
-systems.gameplay.state.createSelectUnitState = function(self)
+systems.gameplay.state.createSelectUnitToActState = function(self)
     local state = {
         receiveMessage = function(self, message)
             if(message.type == messageTypesEnum.selectorPosition) self:runSelector(message.value)

@@ -23,8 +23,8 @@ function init_game()
     local controllerSystem = systems.controllers:createControllerSystem(selectorController)
     systems:registerLogicSystem(controllerSystem)
     
-    local selectUnitState = systems.gameplay.state:createSelectUnitState()
-    local gameplaySystem = systems.gameplay:createGameplaySystem(selectUnitState)
+    local selectUnitToActState = systems.gameplay.state:createSelectUnitToActState()
+    local gameplaySystem = systems.gameplay:createGameplaySystem(selectUnitToActState)
     systems:registerLogicSystem(gameplaySystem)
 
     local uiSystem = systems.ui:createUISystem()
