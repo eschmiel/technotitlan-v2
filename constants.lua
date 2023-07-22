@@ -44,5 +44,6 @@ spriteFlagEnum = {
 
 actionsEnum = {
     select = 'select',
-    cancel = 'cancel'
+    cancel = 'cancel',
+    confirm = 'confirm'
 }

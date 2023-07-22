@@ -47,5 +47,6 @@ messageTypesEnum = {
     controller = 'controller',
     action = 'action',
     renderUI = 'render UI',
-    selectorPosition = 'selector position'
+    selectorPosition = 'selector position',
+    setNewGameplayState = 'setNewGameplayState'
 }

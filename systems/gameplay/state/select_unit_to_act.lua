@@ -3,7 +3,7 @@ systems.gameplay.state.createSelectUnitToActState = function(self, startingPosit
         type = messageTypesEnum.setNewController,
         value = {
             controller = controllersEnum.selector,
-            setupData = startingPosition
+            setupData = startingPosition or {0,0}
         }
     })
 

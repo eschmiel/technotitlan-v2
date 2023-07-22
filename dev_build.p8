@@ -50,6 +50,8 @@ __lua__
 
 #include systems/gameplay/state/state.lua
 #include systems/gameplay/state/select_unit_to_act.lua
+#include systems/controllers/start_turn.lua
+#include systems/gameplay/state/start_turn.lua
 
 
 __gfx__

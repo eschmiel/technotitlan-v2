@@ -9,13 +9,18 @@ systems.controllers = {
 
             receiveMessage = function(self, message)
                 if(message.type == messageTypesEnum.setNewController) then self:setNewController(message.value)
-                else self.state:receiveMessage(message)
+                elseif(self.state.receiveMessage) then self.state:receiveMessage(message)
                 end
             end,
 
             setNewController = function(self, messageValue)
                 if(messageValue.controller == controllersEnum.selector) then
                     local newController = systems.controllers:createSelectorController(messageValue.setupData)
+                    self.state = newController
+                end
+
+                if(messageValue.controller == controllersEnum.startTurn) then
+                    local newController = systems.controllers:createStartTurnController()
                     self.state = newController
                 end
             end
@@ -26,5 +31,6 @@ systems.controllers = {
 }
 
 controllersEnum = {
-    selector = 'selector'
+    selector = 'selector',
+    startTurn = 'start turn'
 }
