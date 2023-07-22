@@ -1,19 +1,42 @@
 systems = {
-    registeredSystems = {},
+    logicSystems = {},
+    renderSystems = {},
+    renderSystemMessageQueue = createQueue(),
 
-    register = function(self, system)
-        add(self.registeredSystems, system)
+    registerLogicSystem = function(self, system)
+        add(self.logicSystems, system)
     end,
 
-    run = function(self)
-        for system in all(self.registeredSystems) do
-            system:update()
+    registerRenderSystem = function(self, system)
+        add(self.renderSystems, system)
+    end,
+
+    runLogicSystems = function(self)
+        for system in all(self.logicSystems) do
+            if(system.update) system:update()
+        end
+    end,
+
+    runRenderSystems = function(self)
+        while (self.renderSystemMessageQueue.count > 0) do
+            local message = self.renderSystemMessageQueue:dequeue()
+            self.messenger:deliverMessage(self.renderSystems, message)
+        end
+
+        for system in all(self.renderSystems) do
+            if(system.render) system:render()
         end
     end,
 
     messenger = {
         sendMessage = function(self, message)
-            for system in all(systems.registeredSystems) do
+            systems.renderSystemMessageQueue:enqueue(message)
+
+            self:deliverMessage(systems.logicSystems, message)
+        end,
+
+        deliverMessage = function(self, systemList, message)
+            for system in all(systemList) do
                 if(system.receiveMessage) system:receiveMessage(message)
             end
         end
@@ -21,5 +44,8 @@ systems = {
 }
 
 messageTypesEnum = {
-    controller = 'controller'
+    controller = 'controller',
+    action = 'action',
+    renderUI = 'render UI',
+    selectorPosition = 'selector position'
 }

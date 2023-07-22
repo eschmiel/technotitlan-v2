@@ -21,20 +21,26 @@ function init_game()
 
     local selectorController = systems.controllers:createSelectorController()
     local controllerSystem = systems.controllers:createControllerSystem(selectorController)
-    systems:register(controllerSystem)
+    systems:registerLogicSystem(controllerSystem)
+    local gameplaySystem = systems.gameplay:createGameplaySystem()
+    systems:registerLogicSystem(gameplaySystem)
+
+    local uiSystem = systems.ui:createUISystem()
+    systems:registerRenderSystem(uiSystem)
 end
 
 function update_game()
     uiManager:update()
-    systems:run()
+    systems:runLogicSystems()
 end
 
 function draw_game()
     cls(colorEnum.navy)
-    map(96,0)
+    -- map(96,0)
     
-    game_objects.faction:draw(positionManager)
-    uiManager:draw()
+    -- game_objects.faction:draw(positionManager)
+    --uiManager:draw()
     --drawGraphPositions()
+    systems:runRenderSystems()
 end
 

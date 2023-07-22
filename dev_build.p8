@@ -45,6 +45,8 @@ __lua__
 #include systems/systems.lua
 #include systems/controllers/controller.lua
 #include systems/controllers/selector.lua
+#include systems/gameplay.lua
+#include systems/ui/ui.lua
 
 __gfx__
 00000000dddddddccddddddd00000000000000000000000000000000000000006666077700000707000007070000070700000000000000000400090900400000

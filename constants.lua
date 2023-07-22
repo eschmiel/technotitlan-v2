@@ -41,3 +41,8 @@ unitActionsEnum = {
 spriteFlagEnum = {
     navigable = 0
 }
+
+actionsEnum = {
+    select = 'select',
+    cancel = 'cancel'
+}
