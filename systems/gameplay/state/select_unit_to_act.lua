@@ -1,4 +1,12 @@
-systems.gameplay.state.createSelectUnitToActState = function(self)
+systems.gameplay.state.createSelectUnitToActState = function(self, startingPosition)
+    systems.messenger:sendMessage({
+        type = messageTypesEnum.setNewController,
+        value = {
+            controller = controllersEnum.selector,
+            setupData = startingPosition
+        }
+    })
+
     local state = {
         receiveMessage = function(self, message)
             if(message.type == messageTypesEnum.selectorPosition) self:runSelector(message.value)
