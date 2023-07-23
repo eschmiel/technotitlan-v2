@@ -20,7 +20,9 @@ systems.gameplay.state.createStartPlayerTurnState = function(self, gameObjectMan
             if(message.type == messageTypesEnum.action and message.value == actionsEnum.confirm) then
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.setNewGameplayState,
-                    value = gameplayStateEnum.selectUnitToAct
+                    value = {
+                        newStateName = gameplayStateEnum.selectUnitToAct
+                    }
                 })
             end
         end,

@@ -2,7 +2,15 @@ gameObjectManager = {
     createGameObjectManager = function(self, levelData)
         local manager = {
             mapCoordinates = levelData.mapCoordinates,
-            playerFactions = self:createPlayerFactions(levelData.playerFactions)
+            playerFactions = self:createPlayerFactions(levelData.playerFactions),
+
+            getUnitAtPosition = function(self, position)
+                for faction in all(self.playerFactions) do
+                    for unit in all(faction) do
+                        if(sequencesHaveTheSameValues(position, unit.mapPosition)) return unit                       
+                    end
+                end
+            end
         }
 
         return manager
@@ -22,5 +30,5 @@ gameObjectManager = {
         end
 
         return playerFactions
-    end
+    end,
 }

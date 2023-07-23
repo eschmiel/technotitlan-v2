@@ -57,6 +57,7 @@ __lua__
 #include game_object_manager/game_object_manager.lua
 #include game_object_manager/units/units.lua
 
+#include systems/gameplay/state/action_menu.lua
 
 __gfx__
 00000000dddddddccddddddd00000000000000000000000000000000000000006666077700000707000007070000070700000000000000000400090900400000

@@ -20,10 +20,6 @@ function convertMapPositionToPixelPosition(mapPosition)
     }
 end
 
-function samePosition(position1, position2)
-    return position1.x == position2.x and position1.y == position2.y
-end
-
 function highlightPosition(mapPosition, color)
     local pixelPosition = convertMapPositionToPixelPosition(mapPosition)
 

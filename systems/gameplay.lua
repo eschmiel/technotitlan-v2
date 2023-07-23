@@ -14,19 +14,23 @@ systems.gameplay = {
                 end 
             end,
 
-            setNewGameplayState = function(self, newStateName)
-                if(newStateName == gameplayStateEnum.selectUnitToAct) then
+            setNewGameplayState = function(self, payload)
+                if(payload.newStateName == gameplayStateEnum.selectUnitToAct) then
                     local newState = systems.gameplay.state:createSelectUnitToActState(self.gameObjectManager, {4,4})
                     self.state = newState
                 end
-                if(newStateName == gameplayStateEnum.startPlayerTurn) then
+                if(payload.newStateName == gameplayStateEnum.startPlayerTurn) then
                     local newState = systems.gameplay.state:createStartPlayerTurnState(self.gameObjectManager)
                     self.state = newState
+                end
+                if(payload.newStateName == gameplayStateEnum.actionMenu) then
+                    local newState = systems.gameplay.state:createActionMenuState(self.gameObjectManager, payload.unit)
+                    
                 end
             end
         }
 
-        system:setNewGameplayState(startingState)
+        system:setNewGameplayState({newStateName = startingState})
 
         return system
     end
@@ -34,5 +38,6 @@ systems.gameplay = {
 
 gameplayStateEnum = {
     startPlayerTurn = 'start player turn',
-    selectUnitToAct = 'select unit to act'
+    selectUnitToAct = 'select unit to act',
+    actionMenu = 'action menu'
 }
