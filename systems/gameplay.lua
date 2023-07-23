@@ -1,7 +1,8 @@
 systems.gameplay = {
-    createGameplaySystem = function(self, startingState)
+    createGameplaySystem = function(self, gameObjectManager, startingState)
         local system = {
-            state = startingState,
+            state,
+            gameObjectManager = gameObjectManager,
 
             update = function(self)
                 if(self.state.update) self.state:update()
@@ -15,11 +16,18 @@ systems.gameplay = {
 
             setNewGameplayState = function(self, newStateName)
                 if(newStateName == gameplayStateEnum.selectUnitToAct) then
-                    local newState = systems.gameplay.state:createSelectUnitToActState({4,4})
+                    local newState = systems.gameplay.state:createSelectUnitToActState(self.gameObjectManager, {4,4})
+                    self.state = newState
+                end
+                if(newStateName == gameplayStateEnum.startPlayerTurn) then
+                    local newState = systems.gameplay.state:createStartPlayerTurnState(self.gameObjectManager)
                     self.state = newState
                 end
             end
         }
+
+        system:setNewGameplayState(startingState)
+
         return system
     end
 }

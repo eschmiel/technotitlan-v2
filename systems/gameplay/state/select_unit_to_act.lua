@@ -1,4 +1,4 @@
-systems.gameplay.state.createSelectUnitToActState = function(self, startingPosition)
+systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectManager, startingPosition)
     systems.messenger:sendMessage({
         type = messageTypesEnum.setNewController,
         value = {
@@ -8,6 +8,8 @@ systems.gameplay.state.createSelectUnitToActState = function(self, startingPosit
     })
 
     local state = {
+        gameObjectManager = gameObjectManager,
+        
         receiveMessage = function(self, message)
             if(message.type == messageTypesEnum.selectorPosition) self:runSelector(message.value)
         end,
@@ -15,7 +17,7 @@ systems.gameplay.state.createSelectUnitToActState = function(self, startingPosit
         runSelector = function(self, selectorPosition)
             local selectorColor = colorEnum.brown
 
-            for unit in all(game_objects.faction) do
+            for unit in all(gameObjectManager.playerFactions[1]) do
                 if(sequencesHaveTheSameValues(unit.mapPosition, selectorPosition)) then
                     systems.messenger:sendMessage({
                         type = messageTypesEnum.renderUI,

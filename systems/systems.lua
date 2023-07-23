@@ -18,13 +18,13 @@ systems = {
     end,
 
     runRenderSystems = function(self)
+        for system in all(self.renderSystems) do
+            if(system.render) system:render()
+        end
+        
         while (self.renderSystemMessageQueue.count > 0) do
             local message = self.renderSystemMessageQueue:dequeue()
             self.messenger:deliverMessage(self.renderSystems, message)
-        end
-
-        for system in all(self.renderSystems) do
-            if(system.render) system:render()
         end
     end,
 

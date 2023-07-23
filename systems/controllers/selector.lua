@@ -30,14 +30,10 @@ function systems.controllers:createSelectorController(startingPosition)
 
         keepSelectorOnScreen = function(self, mapPosition)
             if(mapPosition[1] < 0) mapPosition[1] = 0
-            if(mapPosition[1] > 16) mapPosition[1] = 16
+            if(mapPosition[1] > 15) mapPosition[1] = 15
             if(mapPosition[2] < 0) mapPosition[2] = 0
-            if(mapPosition[2] > 16) mapPosition[2] = 16
+            if(mapPosition[2] > 15) mapPosition[2] = 15
         end,
-
-        receiveMessage = function(self, message)
-
-        end
     }
 
     return controller

@@ -52,6 +52,10 @@ __lua__
 #include systems/gameplay/state/select_unit_to_act.lua
 #include systems/controllers/start_turn.lua
 #include systems/gameplay/state/start_turn.lua
+#include systems/world_render/world_render.lua
+
+#include game_object_manager/game_object_manager.lua
+#include game_object_manager/units/units.lua
 
 
 __gfx__

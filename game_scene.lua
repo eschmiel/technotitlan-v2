@@ -9,29 +9,32 @@
 
 function init_game()
     palt(colorEnum.black, false)
-    game_state = {
-        positionManager = position:createManager(level1Data.mapCoordinates)
-    }
-    positionManager = position:createManager(level1Data.mapCoordinates)
-     game_objects = {
-        faction = createFaction(positionManager, level1Data.faction1Units)
-    }
-    local startingState = ui:createStartPlayerTurnState()
-    uiManager = ui:createUIManager(positionManager, game_objects, startingState)
+    local gameObjectManager = gameObjectManager:createGameObjectManager(level1Data)
+    -- game_state = {
+    --     positionManager = position:createManager(level1Data.mapCoordinates)
+    -- }
+    -- positionManager = position:createManager(level1Data.mapCoordinates)
+    --  game_objects = {
+    --     faction = createFaction(positionManager, level1Data.faction1Units)
+    -- }
+    -- local startingState = ui:createStartPlayerTurnState()
+    -- uiManager = ui:createUIManager(positionManager, game_objects, startingState)
 
     local controllerSystem = systems.controllers:createControllerSystem(selectorController)
     systems:registerLogicSystem(controllerSystem)
     
-    local startPlayerTurnState = systems.gameplay.state:createStartPlayerTurnState()
-    local gameplaySystem = systems.gameplay:createGameplaySystem(startPlayerTurnState)
+    local gameplaySystem = systems.gameplay:createGameplaySystem(gameObjectManager, gameplayStateEnum.startPlayerTurn)
     systems:registerLogicSystem(gameplaySystem)
+
+    local worldRenderSystem = systems.worldRender:createWorldRenderSystem(gameObjectManager)
+    systems:registerRenderSystem(worldRenderSystem)
 
     local uiSystem = systems.ui:createUISystem()
     systems:registerRenderSystem(uiSystem)
 end
 
 function update_game()
-    uiManager:update()
+    -- uiManager:update()
     systems:runLogicSystems()
 end
 
@@ -39,7 +42,7 @@ function draw_game()
     cls(colorEnum.navy)
     -- map(96,0)
     
-    game_objects.faction:draw(positionManager)
+    -- game_objects.faction:draw(positionManager)
     --uiManager:draw()
     --drawGraphPositions()
     systems:runRenderSystems()
