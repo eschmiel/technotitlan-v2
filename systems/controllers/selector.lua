@@ -10,7 +10,10 @@ function systems.controllers:createSelectorController(startingPosition)
             if (btnp(controllerEnum.o)) then
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.action,
-                    value = actionsEnum.select
+                    value = {
+                        action = actionsEnum.select,
+                        selectorPosition = self.mapPosition
+                    }
                 })
             end
             if (btnp(controllerEnum.x)) then

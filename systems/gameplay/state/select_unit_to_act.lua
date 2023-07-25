@@ -9,11 +9,15 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
 
     local state = {
         gameObjectManager = gameObjectManager,
-        selectorPosition = startingPosition or {0, 0},
-        
-        update = function(self)
+
+        receiveMessage = function(self, message)
+            if(message.type == messageTypesEnum.selectorPosition) self:runSelector(message.value)
+            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.select) self:select(message.value.selectorPosition)
+        end,
+
+        runSelector = function(self, selectorPosition)
             local selectorColor = colorEnum.brown
-            local hoverUnit = gameObjectManager:getUnitAtPosition(self.selectorPosition)
+            local hoverUnit = gameObjectManager:getUnitAtPosition(selectorPosition)
             
             if(hoverUnit) then
                 systems.messenger:sendMessage({
@@ -31,18 +35,13 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
                 value = {
                     uiElement = uiElementsEnum.highlightPosition,
                     color = selectorColor,
-                    position = self.selectorPosition
+                    position = selectorPosition
                 }
             })
         end,
 
-        receiveMessage = function(self, message)
-            if(message.type == messageTypesEnum.selectorPosition) self.selectorPosition = makeTupleCopy(message.value)
-            if(message.type == messageTypesEnum.action and message.value == actionsEnum.select) self:select()
-        end,
-
-        select = function(self)
-            local selectedUnit = gameObjectManager:getUnitAtPosition(self.selectorPosition)
+        select = function(self, selectorPosition)
+            local selectedUnit = gameObjectManager:getUnitAtPosition(selectorPosition)
             if(selectedUnit) then
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.setNewGameplayState,

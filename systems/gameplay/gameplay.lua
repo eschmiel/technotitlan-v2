@@ -25,7 +25,7 @@ systems.gameplay = {
                 end
                 if(payload.newStateName == gameplayStateEnum.actionMenu) then
                     local newState = systems.gameplay.state:createActionMenuState(self.gameObjectManager, payload.unit)
-                    
+                    self.state = newState
                 end
             end
         }
