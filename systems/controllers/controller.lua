@@ -18,9 +18,12 @@ systems.controllers = {
                     local newController = systems.controllers:createSelectorController(messageValue.setupData)
                     self.state = newController
                 end
-
                 if(messageValue.controller == controllersEnum.startTurn) then
                     local newController = systems.controllers:createStartTurnController()
+                    self.state = newController
+                end
+                if(messageValue.controller == controllersEnum.menu) then
+                    local newController = systems.controllers:createMenuController(messageValue.setupData)
                     self.state = newController
                 end
             end
@@ -32,5 +35,6 @@ systems.controllers = {
 
 controllersEnum = {
     selector = 'selector',
-    startTurn = 'start turn'
+    startTurn = 'start turn',
+    menu = 'menu',
 }

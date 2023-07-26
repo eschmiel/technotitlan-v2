@@ -1,11 +1,11 @@
 -- TO-DO
--- [IN PROGRESS] Reimplement action menu with new architecture
+-- [DONE] Reimplement action menu with new architecture
 -- -- Reimplement moving units with new architecture
--- -- Display positions user can move to or attack
--- -- Manage graph objects through Object Manager
+-- [NEXT] Display positions user can move to or attack
+-- [IN PROGRESS] Manage graph objects through Object Manager
 -- -- Attacking units
 -- -- Get rid of old code
--- [IN PROGRESS] Send selector position with select message from selector controller
+-- [DONE] Send selector position with select message from selector controller
 
 function init_game()
     palt(colorEnum.black, false)

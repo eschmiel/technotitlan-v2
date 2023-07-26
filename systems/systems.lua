@@ -48,5 +48,6 @@ messageTypesEnum = {
     action = 'action',
     renderUI = 'render UI',
     selectorPosition = 'selector position',
-    setNewGameplayState = 'setNewGameplayState'
+    setNewGameplayState = 'setNewGameplayState',
+    selectedOption = 'selected option'
 }

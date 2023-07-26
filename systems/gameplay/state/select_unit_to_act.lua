@@ -17,9 +17,30 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
 
         runSelector = function(self, selectorPosition)
             local selectorColor = colorEnum.brown
-            local hoverUnit = gameObjectManager:getUnitAtPosition(selectorPosition)
+            local hoverUnit = self.gameObjectManager.unitManager:getUnitAtPosition(selectorPosition)
             
             if(hoverUnit) then
+                local positionsInMovementRange = self.gameObjectManager.unitManager:getMapPositionsInMovementRange(hoverUnit)
+                local positionsInAttackRange = self.gameObjectManager.unitManager:getMapPositionsInAttackRangeAfterMovement(hoverUnit)
+
+                systems.messenger:sendMessage({
+                    type = messageTypesEnum.renderUI,
+                    value = {
+                        uiElement = uiElementsEnum.highlightPositions,
+                        color = colorEnum.red,
+                        positions = positionsInAttackRange
+                    }
+                })
+
+                systems.messenger:sendMessage({
+                    type = messageTypesEnum.renderUI,
+                    value = {
+                        uiElement = uiElementsEnum.highlightPositions,
+                        color = colorEnum.green,
+                        positions = positionsInMovementRange
+                    }
+                })
+
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.renderUI,
                     value = {
@@ -33,15 +54,15 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
             systems.messenger:sendMessage({
                 type = messageTypesEnum.renderUI,
                 value = {
-                    uiElement = uiElementsEnum.highlightPosition,
+                    uiElement = uiElementsEnum.highlightPositions,
                     color = selectorColor,
-                    position = selectorPosition
+                    positions = {selectorPosition}
                 }
             })
         end,
 
         select = function(self, selectorPosition)
-            local selectedUnit = gameObjectManager:getUnitAtPosition(selectorPosition)
+            local selectedUnit = gameObjectManager.unitManager:getUnitAtPosition(selectorPosition)
             if(selectedUnit) then
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.setNewGameplayState,

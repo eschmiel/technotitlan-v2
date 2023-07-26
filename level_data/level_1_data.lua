@@ -7,5 +7,5 @@ level1Data = {
             {position = {8,3}}
         }
     },
-    mapCoordinates = {x = 96, y = 0}
+    mapCoordinates = {96, 0}
 }

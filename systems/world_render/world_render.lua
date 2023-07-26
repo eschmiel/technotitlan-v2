@@ -1,11 +1,13 @@
 systems.worldRender = {
     createWorldRenderSystem = function(self, gameObjectManager)
         local system = {
+            gameObjectManager = gameObjectManager,
+            
             render = function(self)
-                local coordinates = gameObjectManager.mapCoordinates
+                local coordinates = self.gameObjectManager.mapCoordinates
                 map(coordinates[1], coordinates[2])
 
-                for faction in all(gameObjectManager.playerFactions) do
+                for faction in all(self.gameObjectManager.unitManager.playerFactions) do
                     for unit in all(faction) do
                         self:renderUnit(unit)
                     end

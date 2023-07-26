@@ -10,15 +10,15 @@ __lua__
 #include helpers/data_structures/linked_list.lua
 #include helpers/data_structures/queue.lua
 
-#include game_objects/unit.lua
-#include game_objects/managers/faction.lua
+-- #include game_objects/unit.lua
+-- #include game_objects/managers/faction.lua
 
 #include level_data/level_1_data.lua
 
 #include ui/ui_module.lua
-#include ui/ui_manager.lua
+-- #include ui/ui_manager.lua
 
-#include ui/components/selector.lua
+-- #include ui/components/selector.lua
 #include ui/components/new_turn_start_notice.lua
 
 #include ui/components/text_box/snake_box.lua
@@ -26,21 +26,21 @@ __lua__
 
 #include ui/components/unit_details/unit_details_bottom_bar.lua
 
-#include ui/components/unit_action_menu.lua
+-- #include ui/components/unit_action_menu.lua
 
-#include ui/state/select_unit_to_act.lua
-#include ui/state/start_player_turn.lua
-#include ui/state/unit_action_menu.lua
-#include ui/state/select_position_to_move_to.lua
+-- #include ui/state/select_unit_to_act.lua
+-- #include ui/state/start_player_turn.lua
+-- #include ui/state/unit_action_menu.lua
+-- #include ui/state/select_position_to_move_to.lua
 
-#include position/position_manager.lua
+-- #include position/position_manager.lua
 
 #include modules/modules.lua
 #include modules/graph/graph.lua
 #include modules/ui/ui.lua
 #include modules/ui/positions/positions.lua
 
-#include helpers/unit_helpers.lua
+-- #include helpers/unit_helpers.lua
 
 #include systems/systems.lua
 #include systems/controllers/controller.lua
@@ -59,6 +59,9 @@ __lua__
 
 #include systems/gameplay/state/action_menu.lua
 #include systems/ui/components/unit_action_menu.lua
+#include systems/controllers/menu.lua
+#include game_object_manager/graph.lua
+#include game_object_manager/units/units.lua
 
 __gfx__
 00000000dddddddccddddddd00000000000000000000000000000000000000006666077700000707000007070000070700000000000000000400090900400000
