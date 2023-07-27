@@ -48,7 +48,7 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
                         unit = hoverUnit
                     }
                 })
-                selectorColor = colorEnum.pink
+                selectorColor = colorEnum.yellow
             end
 
             systems.messenger:sendMessage({

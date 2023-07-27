@@ -4,7 +4,7 @@ systems.controllers = {
             state = startingState,
     
             update = function(self)
-                if(self.state.update) self.state:update()   
+                if(self.state and self.state.update) self.state:update()   
             end,
 
             receiveMessage = function(self, message)

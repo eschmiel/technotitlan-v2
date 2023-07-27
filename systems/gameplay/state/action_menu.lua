@@ -23,6 +23,16 @@ systems.gameplay.state.createActionMenuState = function(self, gameObjectManager,
                     }
                 })
             end
+
+            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.select) then
+                systems.messenger:sendMessage({
+                    type = messageTypesEnum.setNewGameplayState,
+                    value = {
+                        newStateName = gameplayStateEnum.selectPositionToMoveTo,
+                        unit = self.selectedUnit
+                    }
+                })
+            end
         end
     }
 
