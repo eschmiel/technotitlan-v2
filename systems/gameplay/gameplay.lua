@@ -16,7 +16,7 @@ systems.gameplay = {
 
             setNewGameplayState = function(self, payload)
                 if(payload.newStateName == gameplayStateEnum.selectUnitToAct) then
-                    local newState = systems.gameplay.state:createSelectUnitToActState(self.gameObjectManager, {4,4})
+                    local newState = systems.gameplay.state:createSelectUnitToActState(self.gameObjectManager, payload.selectorPosition)
                     self.state = newState
                 end
                 if(payload.newStateName == gameplayStateEnum.startPlayerTurn) then

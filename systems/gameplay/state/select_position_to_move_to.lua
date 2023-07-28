@@ -33,8 +33,10 @@ systems.gameplay.state.createSelectPositionToMoveToState = function(self, gameOb
         end,
 
         receiveMessage = function(self, message)
+        
             if(message.type == messageTypesEnum.selectorPosition) self:runSelector(message.value)
             if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.select) self:select(message.value.selectorPosition)
+            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.cancel) examineTable(message) self:cancel(message.value.selectorPosition)
         end,
 
         runSelector = function(self, selectorPosition)
@@ -64,14 +66,27 @@ systems.gameplay.state.createSelectPositionToMoveToState = function(self, gameOb
             end
 
             if(positionIsSelectable) then
+                local previousPosition = makeTupleCopy(self.selectedUnit.mapPosition)
+                self.gameObjectManager.unitManager:moveUnit(self.selectedUnit, selectorPosition)
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.setNewGameplayState,
                     value = {
                         newStateName = gameplayStateEnum.actionMenu,
-                        unit = self.selectedUnit
+                        unit = self.selectedUnit,
+                        previousPosition = previousPosition
                     }
                 })
             end
+        end,
+
+        cancel = function(self, selectorPosition)
+            systems.messenger:sendMessage({
+                type = messageTypesEnum.setNewGameplayState,
+                value = {
+                    newStateName = gameplayStateEnum.selectUnitToAct,
+                    selectorPosition = selectorPosition
+                }
+            })
         end
     }
 

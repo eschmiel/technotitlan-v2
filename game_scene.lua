@@ -1,7 +1,7 @@
 -- TO-DO
 -- [DONE] Reimplement action menu with new architecture
 -- [IN PROGRESS] Reimplement moving units with new architecture
--- -- -- move unit to selected position
+-- -- [DONE] move unit to selected position
 -- -- -- cancel btn on select to move, action menu
 -- -- -- go to select to move before action menu
 -- -- -- highlight attackable positions when selector rests on attack action

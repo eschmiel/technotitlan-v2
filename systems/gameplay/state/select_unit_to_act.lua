@@ -67,7 +67,7 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.setNewGameplayState,
                     value = {
-                        newStateName = gameplayStateEnum.actionMenu,
+                        newStateName = gameplayStateEnum.selectPositionToMoveTo,
                         unit = selectedUnit
                     }
                 })

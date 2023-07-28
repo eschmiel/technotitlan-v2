@@ -104,6 +104,10 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
             if (unit.physicalAttackRange < unit.magicAttackRange) attackAction = unitActionsEnum.magicAttack
         
             return self:getMapPositionsInActionRangeAfterMovement(unit, attackAction)
+        end,
+
+        moveUnit = function(self, unit, position)
+            unit.mapPosition = makeTupleCopy(position)
         end
     }
 

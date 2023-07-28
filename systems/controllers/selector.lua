@@ -19,7 +19,10 @@ function systems.controllers:createSelectorController(startingPosition)
             if (btnp(controllerEnum.x)) then
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.action,
-                    value = actionsEnum.cancel
+                    value = {
+                        action = actionsEnum.cancel,
+                        selectorPosition = self.mapPosition
+                    }
                 })
             end
             
