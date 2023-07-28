@@ -1,10 +1,10 @@
 -- TO-DO
 -- [DONE] Reimplement action menu with new architecture
--- [IN PROGRESS] Reimplement moving units with new architecture
+-- [DONE] Reimplement moving units with new architecture
 -- -- [DONE] move unit to selected position
--- -- -- cancel btn on select to move, action menu
--- -- -- go to select to move before action menu
--- -- -- highlight attackable positions when selector rests on attack action
+-- -- [DONE] cancel btn on select to move, action menu
+-- -- [DONE] go to select to move before action menu
+-- -- [DONE] highlight attackable positions when selector rests on attack action
 
 -- [DONE] Display positions user can move to or attack
 -- [DONE] Manage graph objects through Object Manager

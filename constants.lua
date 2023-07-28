@@ -35,7 +35,7 @@ unitActionsEnum = {
     move = 'move',
     attack = 'attack',
     heal = 'heal',
-    magicAttack = 'magicAttack'
+    magic = 'magic'
 }
 
 spriteFlagEnum = {

@@ -13,14 +13,16 @@ function systems.controllers:createMenuController(setupData)
                     type = messageTypesEnum.action,
                     value = {
                         action = actionsEnum.select,
-                        selected = selected
+                        selected = self.selected
                     }
                 })
             end
             if (btnp(controllerEnum.x)) then
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.action,
-                    value = actionsEnum.cancel
+                    value = {
+                        action = actionsEnum.cancel
+                    }
                 })
             end
             

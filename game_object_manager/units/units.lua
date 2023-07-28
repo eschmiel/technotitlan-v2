@@ -24,7 +24,6 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
                 healRange = 2,
         
                 actions = {
-                    'move',
                     'attack',
                     'heal',
                     'magic',
@@ -78,11 +77,30 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
             return mapPositionsInRange
         end,
 
+        getMapPositionsInActionRange = function(self, unit, action)
+            local actionRange
+    
+            if (action == unitActionsEnum.attack) then actionRange = unit.physicalAttackRange
+            elseif (action == unitActionsEnum.magic) then actionRange = unit.magicAttackRange
+            elseif (action == unitActionsEnum.heal) then actionRange = unit.healRange
+            else return {}
+            end
+
+            local unitMapGraphPosition = self.gameObjectManager.graphManager.mapGraph.mapPositionToGraphPosition[unit.mapPosition[1]][unit.mapPosition[2]]
+            local mapGraphPositionsInActionRange = modules.graph:getGraphPositionsInRange(self.gameObjectManager.graphManager.mapGraph, {unitMapGraphPosition}, actionRange)
+
+            local navigableMapGraphPositionsInActionRange = self.gameObjectManager.graphManager:getOnlyMapGraphPositionsAlsoInNavGraph(mapGraphPositionsInActionRange)
+
+            local mapPositionsInActionRange = modules.graph:convertGraphPositionsToMapPositions(self.gameObjectManager.graphManager.mapGraph, navigableMapGraphPositionsInActionRange)
+
+            return mapPositionsInActionRange
+        end,
+
         getMapPositionsInActionRangeAfterMovement = function(self, unit, action)
             local actionRange
     
             if (action == unitActionsEnum.attack) then actionRange = unit.physicalAttackRange
-            elseif (action == unitActionsEnum.magicAttack) then actionRange = unit.magicAttackRange
+            elseif (action == unitActionsEnum.magic) then actionRange = unit.magicAttackRange
             elseif (action == unitActionsEnum.heal) then actionRange = unit.healRange
             end
     
@@ -101,13 +119,17 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
     
         getMapPositionsInAttackRangeAfterMovement = function(self, unit)
             local attackAction = unitActionsEnum.attack
-            if (unit.physicalAttackRange < unit.magicAttackRange) attackAction = unitActionsEnum.magicAttack
+            if (unit.physicalAttackRange < unit.magicAttackRange) attackAction = unitActionsEnum.magic
         
             return self:getMapPositionsInActionRangeAfterMovement(unit, attackAction)
         end,
 
         moveUnit = function(self, unit, position)
             unit.mapPosition = makeTupleCopy(position)
+        end,
+
+        exhaust = function(self, unit)
+            unit.active = false
         end
     }
 

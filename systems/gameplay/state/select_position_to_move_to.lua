@@ -36,7 +36,7 @@ systems.gameplay.state.createSelectPositionToMoveToState = function(self, gameOb
         
             if(message.type == messageTypesEnum.selectorPosition) self:runSelector(message.value)
             if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.select) self:select(message.value.selectorPosition)
-            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.cancel) examineTable(message) self:cancel(message.value.selectorPosition)
+            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.cancel) self:cancel(message.value.selectorPosition)
         end,
 
         runSelector = function(self, selectorPosition)

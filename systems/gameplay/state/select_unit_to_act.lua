@@ -19,7 +19,7 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
             local selectorColor = colorEnum.brown
             local hoverUnit = self.gameObjectManager.unitManager:getUnitAtPosition(selectorPosition)
             
-            if(hoverUnit) then
+            if(hoverUnit and hoverUnit.active) then
                 local positionsInMovementRange = self.gameObjectManager.unitManager:getMapPositionsInMovementRange(hoverUnit)
                 local positionsInAttackRange = self.gameObjectManager.unitManager:getMapPositionsInAttackRangeAfterMovement(hoverUnit)
 
@@ -63,7 +63,7 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
 
         select = function(self, selectorPosition)
             local selectedUnit = gameObjectManager.unitManager:getUnitAtPosition(selectorPosition)
-            if(selectedUnit) then
+            if(selectedUnit and selectedUnit.active) then
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.setNewGameplayState,
                     value = {

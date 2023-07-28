@@ -24,7 +24,7 @@ systems.gameplay = {
                     self.state = newState
                 end
                 if(payload.newStateName == gameplayStateEnum.actionMenu) then
-                    local newState = systems.gameplay.state:createActionMenuState(self.gameObjectManager, payload.unit)
+                    local newState = systems.gameplay.state:createActionMenuState(self.gameObjectManager, payload.unit, payload.previousPosition)
                     self.state = newState
                 end
                 if(payload.newStateName == gameplayStateEnum.selectPositionToMoveTo) then
