@@ -1,4 +1,4 @@
-ui.snakeBox = {
+systems.ui.snakeBox = {
     snakeBoxSprites = {
         head = 203,
         widthSide = 201,
@@ -11,7 +11,7 @@ ui.snakeBox = {
 }
 
 -- length and width must be at least 3
-function ui.snakeBox:draw(originXInPixels, originYInPixels, lengthInSprites, widthInSprites)
+function systems.ui.snakeBox:draw(originXInPixels, originYInPixels, lengthInSprites, widthInSprites)
     local rightSideSpriteX = originXInPixels + (widthInSprites - 1) * spriteSideSizeInPixels
     local bottomSideSpriteY = originYInPixels + (lengthInSprites -1) * spriteSideSizeInPixels
     

@@ -1,4 +1,4 @@
-function ui:createNewTurnStartNotice()
+function systems.ui:createNewTurnStartNotice()
     local turn_start_message = "USER PRIVILEGES GRANTED"
     local message_color = colorEnum.green
 

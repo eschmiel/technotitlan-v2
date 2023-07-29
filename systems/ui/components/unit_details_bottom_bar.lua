@@ -1,4 +1,4 @@
-ui.unitDetailsBottomBar = {
+systems.ui.unitDetailsBottomBar = {
     sprites = {
         hp = 211,
         physicalAttack = 224,
@@ -8,8 +8,8 @@ ui.unitDetailsBottomBar = {
     }
 }
 
-function ui.unitDetailsBottomBar:draw(unit, pixelX, pixelY)
-    local textBox = ui.textBox:create(pixelX, pixelY, 3, 16)
+function systems.ui.unitDetailsBottomBar:draw(unit, pixelX, pixelY)
+    local textBox = systems.ui.textBox:create(pixelX, pixelY, 3, 16)
 
     textBox:draw()
     spr(self.sprites.hp, textBox:getColumnX(2)+3, textBox:getRowY(1))

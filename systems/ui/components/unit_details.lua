@@ -8,8 +8,8 @@ ui.unitDetails = {
     }
 }
 
-function ui.unitDetails:draw(unit, pixelX, pixelY)
-    local textBox = ui.textBox:create(pixelX, pixelY, 7, 6)
+function systems.ui.unitDetails:draw(unit, pixelX, pixelY)
+    local textBox = systems.ui.textBox:create(pixelX, pixelY, 7, 6)
 
     textBox.leftPadding = pixelX + spriteSideSizeInPixels
     textBox.topPadding = pixelY + 5

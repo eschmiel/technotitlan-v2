@@ -10,26 +10,20 @@ __lua__
 
 #include level_data/level_1_data.lua
 
-#include ui/ui_module.lua
-
-#include ui/components/new_turn_start_notice.lua
-
-#include ui/components/text_box/snake_box.lua
-#include ui/components/text_box/text_box.lua
-
-#include ui/components/unit_details/unit_details_bottom_bar.lua
-
 #include modules/modules.lua
 #include modules/graph/graph.lua
 #include modules/ui/ui.lua
 #include modules/ui/positions/positions.lua
-
 
 #include systems/systems.lua
 #include systems/controllers/controller.lua
 #include systems/controllers/selector.lua
 #include systems/gameplay/gameplay.lua
 #include systems/ui/ui.lua
+#include systems/ui/components/new_turn_start_notice.lua
+#include systems/ui/text_box/snake_box.lua
+#include systems/ui/text_box/text_box.lua
+#include systems/ui/components/unit_details_bottom_bar.lua
 
 #include systems/gameplay/state/state.lua
 #include systems/gameplay/state/select_unit_to_act.lua

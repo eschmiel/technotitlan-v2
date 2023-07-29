@@ -1,6 +1,6 @@
-ui.textBox = {}
+systems.ui.textBox = {}
 
-function ui.textBox:create(pixelX, pixelY, widthInSprites, lengthInSprites)
+function systems.ui.textBox:create(pixelX, pixelY, widthInSprites, lengthInSprites)
     -- These defaults are for the unit details bottom bar
     local textBox = {
         leftPadding = pixelX + spriteSideSizeInPixels,
@@ -30,7 +30,7 @@ function ui.textBox:create(pixelX, pixelY, widthInSprites, lengthInSprites)
     end
 
     function textBox:draw()
-        ui.snakeBox:draw(pixelX, pixelY, widthInSprites, lengthInSprites)
+        systems.ui.snakeBox:draw(pixelX, pixelY, widthInSprites, lengthInSprites)
     end
 
     return textBox
