@@ -13,13 +13,13 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
                 maxHP = 10,
                 movement = 3,
         
-                physicalAttack = 5,
+                physicalAttack = 7,
                 magicAttack = 2,
         
                 physicalDefence = 2,
                 magicDefence = 3,
         
-                physicalAttackRange = 1,
+                physicalAttackRange = 3,
                 magicAttackRange = 3,
                 healRange = 2,
         
@@ -124,13 +124,53 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
             return self:getMapPositionsInActionRangeAfterMovement(unit, attackAction)
         end,
 
+        getUnitsInActionRange = function(self, sourceUnit, action)
+            local mapPositionsInActionRange = self:getMapPositionsInActionRange(sourceUnit, action)
+            local unitsInActionRange = {}
+            for faction in all(self.playerFactions) do
+                for unit in all(faction) do
+                    for mapPosition in all(mapPositionsInActionRange) do
+                        if(sequencesHaveTheSameValues(mapPosition, unit.mapPosition) and not sequencesHaveTheSameValues(unit.mapPosition, sourceUnit.mapPosition)) add(unitsInActionRange, unit) break
+                    end
+                end
+            end
+            return unitsInActionRange
+        end,
+
         moveUnit = function(self, unit, position)
             unit.mapPosition = makeTupleCopy(position)
         end,
 
         exhaust = function(self, unit)
             unit.active = false
+        end,
+
+        runUnitAction = function(self, actingUnit, target, action)
+            if(action == unitActionsEnum.attack) self:attack(actingUnit, target)
+            if(action == unitActionsEnum.magic) self:magicAttack(actingUnit, target)
+            if(action == unitActionsEnum.heal) self:heal(actingUnit, target)
+        end,
+
+        attack = function(self, attacker, target)
+            local damage = max(attacker.physicalAttack - target.physicalDefence, 0)
+            target.hp -= damage
+            if(target.hp <= 0) del(self.playerFactions[1], target)
+            self:exhaust(attacker)
+        end,
+
+        magicAttack = function(self, attacker, target)
+            local damage = max(attacker.magicAttack - target.magicDefence, 0)
+            target.hp -= damage
+            if(target.hp <= 0) del(self.playerFactions[1], target)
+            self:exhaust(attacker)
+        end,
+
+        heal = function(self, healer, target)
+            target.hp += healer.magicAttack
+            if(target.hp > target.maxHP) target.hp = target.maxHP
+            self:exhaust(healer)
         end
+
     }
 
     manager.playerFactions = manager:createPlayerFactions(levelData.playerFactions)

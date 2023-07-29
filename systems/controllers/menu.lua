@@ -1,4 +1,5 @@
 function systems.controllers:createMenuController(setupData)
+    printh('beep')
     local controller =  {
         numberOfOptions = setupData.numberOfOptions,
         selected = 1,
@@ -27,7 +28,7 @@ function systems.controllers:createMenuController(setupData)
             end
             
             self:loopSelected()
-
+printh(self.selected)
             systems.messenger:sendMessage({
                 type = messageTypesEnum.selectedOption,
                 value = self.selected

@@ -7,7 +7,7 @@ systems.ui = {
                     if(data.uiElement == uiElementsEnum.highlightPositions) modules.ui.positions:highlightPositions(data.positions, data.color)
                     if(data.uiElement == uiElementsEnum.unitDetails) ui.unitDetailsBottomBar:draw(data.unit, 0, 104)
                     if(data.uiElement == uiElementsEnum.newTurnStartNotice) ui:createNewTurnStartNotice()
-                    if(data.uiElement == uiElementsEnum.unitActionMenu) systems.ui:renderUnitActionMenu({20, 20}, data.unit, data.selectedAction )
+                    if(data.uiElement == uiElementsEnum.unitActionMenu) systems.ui:renderUnitActionMenu({60, 60}, data.unit, data.selectedAction )
                 end
             end
         }

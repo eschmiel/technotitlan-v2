@@ -66,14 +66,13 @@ systems.gameplay.state.createSelectPositionToMoveToState = function(self, gameOb
             end
 
             if(positionIsSelectable) then
-                local previousPosition = makeTupleCopy(self.selectedUnit.mapPosition)
+                self.selectedUnit.previousPosition = makeTupleCopy(self.selectedUnit.mapPosition)
                 self.gameObjectManager.unitManager:moveUnit(self.selectedUnit, selectorPosition)
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.setNewGameplayState,
                     value = {
                         newStateName = gameplayStateEnum.actionMenu,
-                        unit = self.selectedUnit,
-                        previousPosition = previousPosition
+                        unit = self.selectedUnit
                     }
                 })
             end

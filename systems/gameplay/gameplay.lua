@@ -24,11 +24,15 @@ systems.gameplay = {
                     self.state = newState
                 end
                 if(payload.newStateName == gameplayStateEnum.actionMenu) then
-                    local newState = systems.gameplay.state:createActionMenuState(self.gameObjectManager, payload.unit, payload.previousPosition)
+                    local newState = systems.gameplay.state:createActionMenuState(self.gameObjectManager, payload.unit)
                     self.state = newState
                 end
                 if(payload.newStateName == gameplayStateEnum.selectPositionToMoveTo) then
                     local newState = systems.gameplay.state:createSelectPositionToMoveToState(self.gameObjectManager, payload.unit)
+                    self.state = newState
+                end
+                if(payload.newStateName == gameplayStateEnum.selectUnitInActionRange) then
+                    local newState = systems.gameplay.state:createSelectUnitInActionRangeState(self.gameObjectManager, payload.actingUnit, payload.action)
                     self.state = newState
                 end
             end
@@ -42,5 +46,6 @@ gameplayStateEnum = {
     startPlayerTurn = 'start player turn',
     selectUnitToAct = 'select unit to act',
     actionMenu = 'action menu',
-    selectPositionToMoveTo = 'select position to move to'
+    selectPositionToMoveTo = 'select position to move to',
+    selectUnitInActionRange = 'select unit in action range'
 }

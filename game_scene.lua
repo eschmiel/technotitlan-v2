@@ -1,16 +1,6 @@
 -- TO-DO
--- [DONE] Reimplement action menu with new architecture
--- [DONE] Reimplement moving units with new architecture
--- -- [DONE] move unit to selected position
--- -- [DONE] cancel btn on select to move, action menu
--- -- [DONE] go to select to move before action menu
--- -- [DONE] highlight attackable positions when selector rests on attack action
-
--- [DONE] Display positions user can move to or attack
--- [DONE] Manage graph objects through Object Manager
 -- -- Attacking units
 -- -- Get rid of old code
--- [DONE] Send selector position with select message from selector controller
 
 function init_game()
     palt(colorEnum.black, false)
