@@ -27,6 +27,7 @@ controllerEnum = {
 }
 
 spriteSideSizeInPixels = 8
+mapSideSize = 16
 
 unitActionsEnum = {
     cancel = 'cancel',
@@ -34,9 +35,15 @@ unitActionsEnum = {
     move = 'move',
     attack = 'attack',
     heal = 'heal',
-    magicAttack = 'magicAttack'
+    magic = 'magic'
 }
 
 spriteFlagEnum = {
     navigable = 0
+}
+
+actionsEnum = {
+    select = 'select',
+    cancel = 'cancel',
+    confirm = 'confirm'
 }

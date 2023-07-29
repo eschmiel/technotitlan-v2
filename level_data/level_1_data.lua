@@ -1,9 +1,11 @@
 level1Data = {
-    faction1Units = {
-        --{position = {x=3, y=6}},
-        --{position = {x=2, y=6}},
-        --{position = {x=3, y=5}},
-        {position = {8,3}}
+    playerFactions = { 
+        {
+            {position = {7, 6}},
+            {position = {5, 4}},
+            {position = {3, 5}},
+            {position = {8,3}}
+        }
     },
-    mapCoordinates = {x = 96, y = 0}
+    mapCoordinates = {96, 0}
 }

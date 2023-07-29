@@ -1,0 +1,6 @@
+We need:
+
+- to be able to traverse a graph of navigable spaces and see available movements options in range
+- to be able to traverse a graph of ALL spaces and highlight any navigable ones in attack range.
+
+Need a graph module that can build the correct adjacency list and maintain its own mapPositionToGraphPosition table.

@@ -5,36 +5,44 @@ __lua__
 #include game_scene.lua
 #include constants.lua
 #include helpers/helpers.lua
-#include helpers/debug_helpers.lua
-#include helpers/table_helpers.lua
 #include helpers/data_structures/linked_list.lua
 #include helpers/data_structures/queue.lua
 
-#include game_objects/unit.lua
-#include game_objects/managers/faction.lua
-
 #include level_data/level_1_data.lua
 
-#include ui/ui_module.lua
-#include ui/ui_manager.lua
+#include modules/modules.lua
+#include modules/graph/graph.lua
+#include modules/ui/ui.lua
+#include modules/ui/positions/positions.lua
 
-#include ui/components/selector.lua
-#include ui/components/new_turn_start_notice.lua
+#include systems/systems.lua
+#include systems/controllers/controller.lua
+#include systems/controllers/selector.lua
+#include systems/gameplay/gameplay.lua
+#include systems/ui/ui.lua
+#include systems/ui/components/new_turn_start_notice.lua
+#include systems/ui/text_box/snake_box.lua
+#include systems/ui/text_box/text_box.lua
+#include systems/ui/components/unit_details_bottom_bar.lua
 
-#include ui/components/text_box/snake_box.lua
-#include ui/components/text_box/text_box.lua
+#include systems/gameplay/state/state.lua
+#include systems/gameplay/state/select_unit_to_act.lua
+#include systems/controllers/start_turn.lua
+#include systems/gameplay/state/start_turn.lua
+#include systems/world_render/world_render.lua
 
-#include ui/components/unit_details/unit_details_bottom_bar.lua
+#include game_object_manager/game_object_manager.lua
+#include game_object_manager/units/units.lua
 
-#include ui/components/unit_action_menu.lua
+#include systems/gameplay/state/action_menu.lua
+#include systems/ui/components/unit_action_menu.lua
+#include systems/controllers/menu.lua
+#include game_object_manager/graph.lua
+#include game_object_manager/units/units.lua
 
-#include ui/state/select_unit_to_act.lua
-#include ui/state/start_player_turn.lua
-#include ui/state/unit_action_menu.lua
-#include ui/state/select_position_to_move_to.lua
+#include systems/gameplay/state/select_position_to_move_to.lua
+#include systems/gameplay/state/select_unit_in_action_range.lua
 
-#include position/position_module.lua
-#include position/position_manager.lua
 
 __gfx__
 00000000dddddddccddddddd00000000000000000000000000000000000000006666077700000707000007070000070700000000000000000400090900400000
