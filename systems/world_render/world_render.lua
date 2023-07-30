@@ -7,8 +7,8 @@ systems.worldRender = {
                 local coordinates = self.gameObjectManager.mapCoordinates
                 map(coordinates[1], coordinates[2])
 
-                for faction in all(self.gameObjectManager.unitManager.playerFactions) do
-                    for unit in all(faction) do
+                for faction in all(self.gameObjectManager.unitManager.factions) do
+                    for unit in all(faction.units) do
                         self:renderUnit(unit)
                     end
                 end

@@ -4,7 +4,7 @@ systems.gameplay.state.createSelectUnitInActionRangeState = function(self, gameO
         type = messageTypesEnum.setNewController,
         value = {
             controller = controllersEnum.menu,
-            setupData = { numberOfOptions = #unitsInActionRange }
+            setupData = { numberOfOptions = unitsInActionRange:numberOfUnits() }
         }
     })
 
@@ -14,7 +14,7 @@ systems.gameplay.state.createSelectUnitInActionRangeState = function(self, gameO
         unitsInActionRange = unitsInActionRange,
         selectableUnitPositions = {},
         action = action,
-
+                
         update = function(self)
             systems.messenger:sendMessage({
                 type = messageTypesEnum.renderUI,
@@ -43,22 +43,22 @@ systems.gameplay.state.createSelectUnitInActionRangeState = function(self, gameO
         end,
 
         runSelector = function(self, selectedOption)
-            if (selectedOption > #self.unitsInActionRange) return
-            if(#self.unitsInActionRange > 0) then
+            if (selectedOption > self.unitsInActionRange:numberOfUnits()) return
+            if(self.unitsInActionRange:numberOfUnits() > 0) then
                 systems.messenger:sendMessage({
                     type = messageTypesEnum.renderUI,
                     value = {
                         uiElement = uiElementsEnum.highlightPositions,
                         color = colorEnum.red,
-                        positions = {self.unitsInActionRange[selectedOption].mapPosition}
+                        positions = {self:targetUnit(selectedOption).mapPosition}
                     }
                 })
             end
         end,
 
         select = function(self, selected)
-            local targetPosition = makeTupleCopy(self.unitsInActionRange[selected].mapPosition)
-            self.gameObjectManager.unitManager:runUnitAction(self.actingUnit, self.unitsInActionRange[selected], self.action)
+            local targetPosition = makeTupleCopy(self:targetUnit(selected).mapPosition)
+            self.gameObjectManager.unitManager:runUnitAction(self.actingUnit, self:targetUnit(selected), self.action)
             systems.messenger:sendMessage({
                 type = messageTypesEnum.setNewGameplayState,
                 value = {
@@ -76,9 +76,24 @@ systems.gameplay.state.createSelectUnitInActionRangeState = function(self, gameO
                     unit = self.actingUnit
                 }
             })
+        end,
+
+        targetUnit = function(self, selectedOption)
+            local totalUnitsInAllPreviouslyCheckedFactions = 0
+
+            examineTable(self.unitsInActionRange.factions)
+            for index, faction in ipairs(self.unitsInActionRange.factions) do
+                local unitsToCheckInCurrentFaction = #faction.units
+                local selectedOptionIsInCurrentFaction = (selectedOption <= totalUnitsInAllPreviouslyCheckedFactions + unitsToCheckInCurrentFaction)
+                if (selectedOptionIsInCurrentFaction) return self.unitsInActionRange.factions[index].units[selectedOption - totalUnitsInAllPreviouslyCheckedFactions]
+                totalUnitsInAllPreviouslyCheckedFactions += unitsToCheckInCurrentFaction
+            end
         end
     }
 
-    for unit in all(unitsInActionRange) do add(state.selectableUnitPositions, unit.mapPosition) end
+    for faction in all(unitsInActionRange) do
+        for unit in all(faction.units) do add(state.selectableUnitPositions, unit.mapPosition) end
+    end
+
     return state
 end

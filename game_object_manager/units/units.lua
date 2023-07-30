@@ -1,7 +1,7 @@
 gameObjectManager.createUnitManager = function(self, gameObjectManager, levelData)
     local manager = { 
         gameObjectManager = gameObjectManager,
-        playerFactions = {},
+        factions = {},
         
         createUnit = function(self, unitData)
             local unit = {
@@ -37,24 +37,22 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
             return unit
         end,
 
-        createPlayerFactions = function(self, factionData)
-            local newFactions = {}
-    
+        createFactions = function(self, factionData)
             for faction in all(factionData) do
-                add(newFactions, {})
-        
-                for unitData in all(faction) do
+                local newFaction = add(self.factions, {})
+                newFaction.name = faction.name
+                newFaction.isPlayer = faction.isPlayer
+                newFaction.units = {}
+                for unitData in all(faction.units) do
                     local newUnit = self:createUnit(unitData)
-                    add(newFactions[#newFactions], newUnit)
+                    add(newFaction.units, newUnit)
                 end
             end
-    
-            return newFactions
         end,
 
         getUnitAtPosition = function(self, position)
-            for faction in all(self.playerFactions) do
-                for unit in all(faction) do
+            for faction in all(self.factions) do
+                for unit in all(faction.units) do
                     if(sequencesHaveTheSameValues(position, unit.mapPosition)) return unit                       
                 end
             end
@@ -126,14 +124,26 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
 
         getUnitsInActionRange = function(self, sourceUnit, action)
             local mapPositionsInActionRange = self:getMapPositionsInActionRange(sourceUnit, action)
-            local unitsInActionRange = {}
-            for faction in all(self.playerFactions) do
-                for unit in all(faction) do
+            local unitsInActionRange = {
+                factions = {}
+            }
+            for faction in all(self.factions) do
+                local factionUnitsInRange = add(unitsInActionRange.factions, { units = {}})
+                for unit in all(faction.units) do
                     for mapPosition in all(mapPositionsInActionRange) do
-                        if(sequencesHaveTheSameValues(mapPosition, unit.mapPosition) and not sequencesHaveTheSameValues(unit.mapPosition, sourceUnit.mapPosition)) add(unitsInActionRange, unit) break
+                        if(sequencesHaveTheSameValues(mapPosition, unit.mapPosition) and not sequencesHaveTheSameValues(unit.mapPosition, sourceUnit.mapPosition)) add(factionUnitsInRange.units, unit) break
                     end
                 end
             end
+
+            function unitsInActionRange:numberOfUnits()
+                local unitCount = 0
+                for faction in all(self.factions) do
+                    unitCount += #faction.units
+                end
+                return unitCount
+            end
+
             return unitsInActionRange
         end,
 
@@ -154,14 +164,14 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
         attack = function(self, attacker, target)
             local damage = max(attacker.physicalAttack - target.physicalDefence, 0)
             target.hp -= damage
-            if(target.hp <= 0) del(self.playerFactions[1], target)
+            if(target.hp <= 0) del(self.factions[1].units, target)
             self:exhaust(attacker)
         end,
 
         magicAttack = function(self, attacker, target)
             local damage = max(attacker.magicAttack - target.magicDefence, 0)
             target.hp -= damage
-            if(target.hp <= 0) del(self.playerFactions[1], target)
+            if(target.hp <= 0) del(self.factions[1].units, target)
             self:exhaust(attacker)
         end,
 
@@ -173,7 +183,7 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
 
     }
 
-    manager.playerFactions = manager:createPlayerFactions(levelData.playerFactions)
+    manager:createFactions(levelData.factions)
 
     return manager
 end
