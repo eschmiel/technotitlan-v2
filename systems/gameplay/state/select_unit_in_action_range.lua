@@ -81,7 +81,6 @@ systems.gameplay.state.createSelectUnitInActionRangeState = function(self, gameO
         targetUnit = function(self, selectedOption)
             local totalUnitsInAllPreviouslyCheckedFactions = 0
 
-            examineTable(self.unitsInActionRange.factions)
             for index, faction in ipairs(self.unitsInActionRange.factions) do
                 local unitsToCheckInCurrentFaction = #faction.units
                 local selectedOptionIsInCurrentFaction = (selectedOption <= totalUnitsInAllPreviouslyCheckedFactions + unitsToCheckInCurrentFaction)

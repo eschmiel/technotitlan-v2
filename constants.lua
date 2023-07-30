@@ -38,6 +38,12 @@ unitActionsEnum = {
     magic = 'magic'
 }
 
+actionTargetsEnum = {
+    enemies = 'enemies',
+    friendlies = 'friendlies',
+    all = 'all'
+}
+
 spriteFlagEnum = {
     navigable = 0
 }

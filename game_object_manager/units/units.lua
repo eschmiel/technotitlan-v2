@@ -127,11 +127,18 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
             local unitsInActionRange = {
                 factions = {}
             }
+            local targetFactions = self:getFactionActionTargets(action)
+
             for faction in all(self.factions) do
-                local factionUnitsInRange = add(unitsInActionRange.factions, { units = {}})
-                for unit in all(faction.units) do
-                    for mapPosition in all(mapPositionsInActionRange) do
-                        if(sequencesHaveTheSameValues(mapPosition, unit.mapPosition) and not sequencesHaveTheSameValues(unit.mapPosition, sourceUnit.mapPosition)) add(factionUnitsInRange.units, unit) break
+                if(tableIncludesValue(targetFactions, faction.name)) then
+                    local factionUnitsInRange = add(unitsInActionRange.factions, { 
+                        name = faction.name,
+                        units = {}
+                    })
+                    for unit in all(faction.units) do
+                        for mapPosition in all(mapPositionsInActionRange) do
+                            if(sequencesHaveTheSameValues(mapPosition, unit.mapPosition) and not sequencesHaveTheSameValues(unit.mapPosition, sourceUnit.mapPosition)) add(factionUnitsInRange.units, unit) break
+                        end
                     end
                 end
             end
@@ -145,6 +152,26 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
             end
 
             return unitsInActionRange
+        end,
+
+        getFactionActionTargets = function(self, action)
+            local activeFaction = self.factions[self.gameObjectManager.activeFaction]
+            local targetClass = actionTargetsEnum.all
+            
+            if(action == unitActionsEnum.attack) targetClass = actionTargetsEnum.enemies
+            if(action == unitActionsEnum.magic) targetClass = actionTargetsEnum.enemies
+            if(action == unitActionsEnum.heal) targetClass = actionTargetsEnum.friendlies
+
+            local targetFactions = {}
+
+            for faction in all(self.factions) do
+                if(targetClass == actionTargetsEnum.all) then add(targetFactions, faction.name)
+                elseif(targetClass == actionTargetsEnum.enemies and faction.name != activeFaction.name) then add(targetFactions, faction.name)
+                elseif(targetClass == actionTargetsEnum.friendlies and faction.name == activeFaction.name) then add(targetFactions, faction.name)
+                end
+            end
+
+            return targetFactions
         end,
 
         moveUnit = function(self, unit, position)
