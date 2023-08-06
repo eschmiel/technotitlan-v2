@@ -24,7 +24,7 @@ systems.gameplay.state.createNewTurnState = function(self, gameObjectManager, fi
                     self.activeFaction = self.gameObjectManager.unitManager:goToNextFaction()
                     self.currentNotice = {
                         uiElement = uiElementsEnum.userLoggingIn,
-                        user = gameObjectManager.activeFaction.name
+                        user = self.activeFaction.name
                     }
                 elseif(self.currentNotice.uiElement == uiElementsEnum.userLoggingIn) then
                     if(self.activeFaction.isPlayer) then self.currentNotice = { uiElement = uiElementsEnum.userPrivilegesGranted } end
@@ -51,7 +51,7 @@ systems.gameplay.state.createNewTurnState = function(self, gameObjectManager, fi
         state.activeFaction = gameObjectManager.unitManager:goToNextFaction()
         state.currentNotice = {
             uiElement = uiElementsEnum.userLoggingIn,
-            user = gameObjectManager.activeFaction.name
+            user = state.activeFaction.name
         }
     end
 

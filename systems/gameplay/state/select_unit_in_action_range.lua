@@ -59,13 +59,32 @@ systems.gameplay.state.createSelectUnitInActionRangeState = function(self, gameO
         select = function(self, selected)
             local targetPosition = makeTupleCopy(self:targetUnit(selected).mapPosition)
             self.gameObjectManager.unitManager:runUnitAction(self.actingUnit, self:targetUnit(selected), self.action)
-            systems.messenger:sendMessage({
-                type = messageTypesEnum.setNewGameplayState,
-                value = {
-                    newStateName = gameplayStateEnum.selectUnitToAct,
-                    selectorPosition = targetPosition,
-                }
-            })
+            
+            local activeFaction = self.gameObjectManager.unitManager:getActiveFaction()
+            local someActiveUnitsRemain = false
+
+            for unit in all(activeFaction.units) do
+                if(unit.active) someActiveUnitsRemain = true
+            end
+
+            if(not someActiveUnitsRemain) then
+                printh('beep')
+                systems.messenger:sendMessage({
+                    type = messageTypesEnum.setNewGameplayState,
+                    value = {
+                        newStateName = gameplayStateEnum.newTurn,
+                    }
+                })
+            else
+                printh('chow')
+                systems.messenger:sendMessage({
+                    type = messageTypesEnum.setNewGameplayState,
+                    value = {
+                        newStateName = gameplayStateEnum.selectUnitToAct,
+                        selectorPosition = targetPosition,
+                    }
+                })
+            end
         end,
 
         cancel = function(self)
