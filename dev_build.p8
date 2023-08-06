@@ -28,7 +28,7 @@ __lua__
 #include systems/gameplay/state/state.lua
 #include systems/gameplay/state/select_unit_to_act.lua
 #include systems/controllers/start_turn.lua
-#include systems/gameplay/state/start_turn.lua
+-- #include systems/gameplay/state/start_turn.lua
 #include systems/world_render/world_render.lua
 
 #include game_object_manager/game_object_manager.lua
@@ -43,7 +43,10 @@ __lua__
 #include systems/gameplay/state/select_position_to_move_to.lua
 #include systems/gameplay/state/select_unit_in_action_range.lua
 
--- #include systems/gameplay/state/new_turn.lua
+#include systems/gameplay/state/new_turn.lua
+#include systems/ui/components/user_logging_in_notice.lua
+#include systems/ui/components/user_privileges_granted_notice.lua
+#include systems/ui/components/user_privileges_revoked_notice.lua
 
 __gfx__
 00000000dddddddccddddddd00000000000000000000000000000000000000006666077700000707000007070000070700000000000000000400090900400000

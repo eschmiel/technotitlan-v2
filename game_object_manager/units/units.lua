@@ -216,8 +216,15 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
 
         getActiveFaction = function(self)
             return self.factions[self.gameObjectManager.activeFaction]
-        end
+        end,
 
+        goToNextFaction = function(self)
+            local nextFaction = self.gameObjectManager.activeFaction + 1
+            if (nextFaction > #self.factions) nextFaction = 1
+            self.gameObjectManager.activeFaction = nextFaction
+
+            return self:getActiveFaction()
+        end
     }
 
     manager:createFactions(levelData.factions)

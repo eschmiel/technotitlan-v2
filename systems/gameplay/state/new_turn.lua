@@ -2,46 +2,33 @@ systems.gameplay.state.createNewTurnState = function(self, gameObjectManager, fi
     systems.messenger:sendMessage({
         type = messageTypesEnum.setNewController,
         value = {
-            controller = controllersEnum.textBox
+            controller = controllersEnum.startTurn
         }
     })
 
     local state = {
-        local gameObjectManager = gameObjectManager
-        local activeFaction = gameObjectManager.unitManager:getActiveFaction()
-        local currentNotice
-
-        if(activeFaction.isPlayer) then 
-            if(firstTurn) then currentNotice = { 
-                uiElement = uiElementsEnum.userLoggingIn,
-                user = activeFaction.name
-             }
-            else currentNotice = { uiElement = uiElementsEnum.userPrivilegesRevoked }
-        else 
-            activeFaction = gameObjectManager.unitManager:goToNextFaction()
-            currentNotice = {
-                uiElement = uiElementsEnum.userLoggingIn
-                user = gameObjectManager.activeFaction.name
-            }
+        gameObjectManager = gameObjectManager,
+        activeFaction = gameObjectManager.unitManager:getActiveFaction(),
+        currentNotice,
 
         update = function(self)
             systems.messenger:sendMessage({
                 type = messageTypesEnum.renderUI,
-                value = currentNotice
+                value = self.currentNotice
             })
         end,
 
         receiveMessage = function(self, message)
             if(message.type == messageTypesEnum.action and message.value == actionsEnum.confirm) then
-                if(currentNotice.uiElement == uiElement.userPrivilegesRevoked) then
-                    activeFaction = self.gameObjectManager.unitManager:goToNextFaction()
-                    currentNotice = {
-                        uiElement = uiElementsEnum.userLoggingIn
+                if(self.currentNotice.uiElement == uiElementsEnum.userPrivilegesRevoked) then
+                    self.activeFaction = self.gameObjectManager.unitManager:goToNextFaction()
+                    self.currentNotice = {
+                        uiElement = uiElementsEnum.userLoggingIn,
                         user = gameObjectManager.activeFaction.name
                     }
-                else if(currentNotice.uiElement == uiElementsEnum.userLoggingIn) then
-                    if(activeFaction.isPlayer) currentNotice = { uiElement = uiElementsEnum.userPrivilegesGranted}
-                else if(currentNotice.uiElement == uiElementsEnum.userPrivilegesGranted) then
+                elseif(self.currentNotice.uiElement == uiElementsEnum.userLoggingIn) then
+                    if(self.activeFaction.isPlayer) then self.currentNotice = { uiElement = uiElementsEnum.userPrivilegesGranted } end
+                elseif(self.currentNotice.uiElement == uiElementsEnum.userPrivilegesGranted) then
                     systems.messenger:sendMessage({
                         type = messageTypesEnum.setNewGameplayState,
                         value = {
@@ -50,8 +37,23 @@ systems.gameplay.state.createNewTurnState = function(self, gameObjectManager, fi
                     })
                 end
             end
-        end,
+        end
     }
+
+    if(state.activeFaction.isPlayer) then 
+        if(firstTurn) then state.currentNotice = { 
+            uiElement = uiElementsEnum.userLoggingIn,
+            user = state.activeFaction.name
+         }
+        else state.currentNotice = { uiElement = uiElementsEnum.userPrivilegesRevoked }
+        end
+    else 
+        state.activeFaction = gameObjectManager.unitManager:goToNextFaction()
+        state.currentNotice = {
+            uiElement = uiElementsEnum.userLoggingIn,
+            user = gameObjectManager.activeFaction.name
+        }
+    end
 
     return state
 end

@@ -1,7 +1,7 @@
 level1Data = {
     factions = { 
         {
-            name = 'User',
+            name = 'bunny',
             isPlayer = true,
             units = {
                 {position = {3, 5}},
@@ -9,7 +9,7 @@ level1Data = {
             }
         },
         {
-            name = 'Enemy',
+            name = 'obsidian butterfly',
             isPlayer = false,
             units = {
                 {position = {7, 6}},

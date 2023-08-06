@@ -1,12 +1,9 @@
--- TO-DO
--- -- Attacking units
--- -- Get rid of old code
-
 function init_game()
+    
     palt(colorEnum.black, false)
     local gameObjectManager = gameObjectManager:createGameObjectManager(level1Data)
     
-    local gameplaySystem = systems.gameplay:createGameplaySystem(gameObjectManager, gameplayStateEnum.startPlayerTurn)
+    local gameplaySystem = systems.gameplay:createGameplaySystem(gameObjectManager)
     systems:registerLogicSystem(gameplaySystem)
 
     local controllerSystem = systems.controllers:createControllerSystem(selectorController)
@@ -21,7 +18,8 @@ function init_game()
     systems.messenger:sendMessage({
         type = messageTypesEnum.setNewGameplayState,
         value = {
-            newStateName = gameplayStateEnum.startPlayerTurn
+            newStateName = gameplayStateEnum.newTurn,
+            firstTurn = true
         }
     })
 end
