@@ -206,6 +206,16 @@ gameObjectManager.createUnitManager = function(self, gameObjectManager, levelDat
             target.hp += healer.magicAttack
             if(target.hp > target.maxHP) target.hp = target.maxHP
             self:exhaust(healer)
+        end,
+
+        getUnitFaction = function(self, unit)
+            for faction in all(self.factions) do
+                if(tableIncludesValue(faction.units, unit)) return faction
+            end
+        end,
+
+        getActiveFaction = function(self)
+            return self.factions[self.gameObjectManager.activeFaction]
         end
 
     }
