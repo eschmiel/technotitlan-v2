@@ -43,6 +43,7 @@ __lua__
 #include systems/gameplay/state/select_position_to_move_to.lua
 #include systems/gameplay/state/select_unit_in_action_range.lua
 
+-- #include systems/gameplay/state/new_turn.lua
 
 __gfx__
 00000000dddddddccddddddd00000000000000000000000000000000000000006666077700000707000007070000070700000000000000000400090900400000

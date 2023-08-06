@@ -1,4 +1,4 @@
-systems.gameplay.state.createStartPlayerTurnState = function(self, gameObjectManager, startingPosition)
+systems.gameplay.state.createStartPlayerTurnState = function(self, gameObjectManager)
     systems.messenger:sendMessage({
         type = messageTypesEnum.setNewController,
         value = {
