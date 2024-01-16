@@ -9,28 +9,24 @@ function systems.controllers:createSelectorController(startingPosition)
             if (btnp(controllerEnum.down)) self.mapPosition[2] += 1
             if (btnp(controllerEnum.o)) then
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.action,
-                    value = {
-                        action = actionsEnum.select,
-                        selectorPosition = self.mapPosition
-                    }
+                    messageTypesEnum.action,
+                    actionsEnum.select,
+                    self.mapPosition
                 })
             end
             if (btnp(controllerEnum.x)) then
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.action,
-                    value = {
-                        action = actionsEnum.cancel,
-                        selectorPosition = self.mapPosition
-                    }
+                    messageTypesEnum.action,
+                    actionsEnum.cancel,
+                    self.mapPosition
                 })
             end
             
             self:keepSelectorOnScreen(self.mapPosition)
 
             systems.messenger:sendMessage({
-                type = messageTypesEnum.selectorPosition,
-                value = self.mapPosition
+                messageTypesEnum.selectorPosition,
+                self.mapPosition
             })
         end,
 

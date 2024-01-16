@@ -1,18 +1,16 @@
 systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectManager, startingPosition)
     systems.messenger:sendMessage({
-        type = messageTypesEnum.setNewController,
-        value = {
-            controller = controllersEnum.selector,
-            setupData = startingPosition or {0,0}
-        }
+        messageTypesEnum.setNewController,
+        controllersEnum.selector,
+        startingPosition or {0,0}
     })
 
     local state = {
         gameObjectManager = gameObjectManager,
 
         receiveMessage = function(self, message)
-            if(message.type == messageTypesEnum.selectorPosition) self:runSelector(message.value)
-            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.select) self:select(message.value.selectorPosition)
+            if(message[1] == messageTypesEnum.selectorPosition) self:runSelector(message[2])
+            if(message[1] == messageTypesEnum.action and message[2] == actionsEnum.select) self:select(message[3])
         end,
 
         runSelector = function(self, selectorPosition)
@@ -38,39 +36,31 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
                 local positionsInAttackRange = self.gameObjectManager.unitManager:getMapPositionsInAttackRangeAfterMovement(hoverUnit)
 
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.renderUI,
-                    value = {
-                        uiElement = uiElementsEnum.highlightPositions,
-                        color = attackRangeColor,
-                        positions = positionsInAttackRange
-                    }
+                    messageTypesEnum.renderUI,
+                    uiElementsEnum.highlightPositions,
+                    attackRangeColor,
+                    positionsInAttackRange
                 })
 
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.renderUI,
-                    value = {
-                        uiElement = uiElementsEnum.highlightPositions,
-                        color = movementRangeColor,
-                        positions = positionsInMovementRange
-                    }
+                    messageTypesEnum.renderUI,
+                    uiElementsEnum.highlightPositions,
+                    movementRangeColor,
+                    positionsInMovementRange
                 })
 
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.renderUI,
-                    value = {
-                        uiElement = uiElementsEnum.unitDetails,
-                        unit = hoverUnit
-                    }
+                    messageTypesEnum.renderUI,
+                    uiElementsEnum.unitDetails,
+                    hoverUnit
                 })
             end
 
             systems.messenger:sendMessage({
-                type = messageTypesEnum.renderUI,
-                value = {
-                    uiElement = uiElementsEnum.highlightPositions,
-                    color = selectorColor,
-                    positions = {selectorPosition}
-                }
+                messageTypesEnum.renderUI,
+                uiElementsEnum.highlightPositions,
+                selectorColor,
+                {selectorPosition}
             })
         end,
 
@@ -80,11 +70,9 @@ systems.gameplay.state.createSelectUnitToActState = function(self, gameObjectMan
             local unitFaction = gameObjectManager.unitManager:getUnitFaction(selectedUnit)
             if(selectedUnit and selectedUnit.active and unitFaction.name == activeFaction.name) then
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.setNewGameplayState,
-                    value = {
-                        newStateName = gameplayStateEnum.selectPositionToMoveTo,
-                        unit = selectedUnit
-                    }
+                    messageTypesEnum.setNewGameplayState,
+                    gameplayStateEnum.selectPositionToMoveTo,
+                    selectedUnit
                 })
             end
         end

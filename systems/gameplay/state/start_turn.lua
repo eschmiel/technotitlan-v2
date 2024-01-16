@@ -1,28 +1,22 @@
 systems.gameplay.state.createStartPlayerTurnState = function(self, gameObjectManager)
     systems.messenger:sendMessage({
-        type = messageTypesEnum.setNewController,
-        value = {
-            controller = controllersEnum.startTurn
-        }
+        messageTypesEnum.setNewController,
+        controllersEnum.startTurn
     })
 
     local state = {
         update = function(self)
             systems.messenger:sendMessage({
-                type = messageTypesEnum.renderUI,
-                value = {
-                    uiElement = uiElementsEnum.newTurnStartNotice
-                }
+                messageTypesEnum.renderUI,
+                uiElementsEnum.newTurnStartNotice
             })
         end,
 
         receiveMessage = function(self, message)
-            if(message.type == messageTypesEnum.action and message.value == actionsEnum.confirm) then
+            if(message[1] == messageTypesEnum.action and message[2] == actionsEnum.confirm) then
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.setNewGameplayState,
-                    value = {
-                        newStateName = gameplayStateEnum.selectUnitToAct
-                    }
+                    messageTypesEnum.setNewGameplayState,
+                    newStateName = gameplayStateEnum.selectUnitToAct
                 })
             end
         end,

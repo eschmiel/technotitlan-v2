@@ -16,11 +16,9 @@ function init_game()
     systems:registerRenderSystem(uiSystem)
 
     systems.messenger:sendMessage({
-        type = messageTypesEnum.setNewGameplayState,
-        value = {
-            newStateName = gameplayStateEnum.newTurn,
-            firstTurn = true
-        }
+        messageTypesEnum.setNewGameplayState,
+        gameplayStateEnum.newTurn,
+        true
     })
 end
 

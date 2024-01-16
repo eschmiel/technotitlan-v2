@@ -8,22 +8,22 @@ systems.controllers = {
             end,
 
             receiveMessage = function(self, message)
-                if(message.type == messageTypesEnum.setNewController) then self:setNewController(message.value)
+                if(message[1] == messageTypesEnum.setNewController) then self:setNewController(message[2], message[3])
                 elseif(self.state.receiveMessage) then self.state:receiveMessage(message)
                 end
             end,
 
-            setNewController = function(self, messageValue)
-                if(messageValue.controller == controllersEnum.selector) then
-                    local newController = systems.controllers:createSelectorController(messageValue.setupData)
+            setNewController = function(self, controllerType, setupData )
+                if(controllerType == controllersEnum.selector) then
+                    local newController = systems.controllers:createSelectorController(setupData)
                     self.state = newController
                 end
-                if(messageValue.controller == controllersEnum.startTurn) then
+                if(controllerType == controllersEnum.startTurn) then
                     local newController = systems.controllers:createStartTurnController()
                     self.state = newController
                 end
-                if(messageValue.controller == controllersEnum.menu) then
-                    local newController = systems.controllers:createMenuController(messageValue.setupData)
+                if(controllerType == controllersEnum.menu) then
+                    local newController = systems.controllers:createMenuController(setupData)
                     self.state = newController
                 end
             end

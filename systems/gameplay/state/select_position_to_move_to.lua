@@ -1,10 +1,8 @@
 systems.gameplay.state.createSelectPositionToMoveToState = function(self, gameObjectManager, unit)
     systems.messenger:sendMessage({
-        type = messageTypesEnum.setNewController,
-        value = {
-            controller = controllersEnum.selector,
-            setupData = makeTupleCopy(unit.mapPosition)
-        }
+        messageTypesEnum.setNewController,
+        controllersEnum.selector,
+        makeTupleCopy(unit.mapPosition)
     })
 
     local state = {
@@ -14,29 +12,24 @@ systems.gameplay.state.createSelectPositionToMoveToState = function(self, gameOb
 
         update = function(self)
             systems.messenger:sendMessage({
-                type = messageTypesEnum.renderUI,
-                value = {
-                    uiElement = uiElementsEnum.highlightPositions,
-                    color = colorEnum.darkGreen,
-                    positions = self.positionsInMovementRange
-                }
+                messageTypesEnum.renderUI,
+                uiElementsEnum.highlightPositions,
+                colorEnum.darkGreen,
+                self.positionsInMovementRange
             })
 
             systems.messenger:sendMessage({
-                type = messageTypesEnum.renderUI,
-                value = {
-                    uiElement = uiElementsEnum.highlightPositions,
-                    color = colorEnum.yellow,
-                    positions = {self.selectedUnit.mapPosition}
-                }
+                messageTypesEnum.renderUI,
+                uiElementsEnum.highlightPositions,
+                colorEnum.yellow,
+                {self.selectedUnit.mapPosition}
             })
         end,
 
         receiveMessage = function(self, message)
-        
-            if(message.type == messageTypesEnum.selectorPosition) self:runSelector(message.value)
-            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.select) self:select(message.value.selectorPosition)
-            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.cancel) self:cancel(message.value.selectorPosition)
+            if(message[1] == messageTypesEnum.selectorPosition) self:runSelector(message[2])
+            if(message[1] == messageTypesEnum.action and message[2] == actionsEnum.select) self:select(message[3])
+            if(message[1] == messageTypesEnum.action and message[2] == actionsEnum.cancel) self:cancel(message[3])
         end,
 
         runSelector = function(self, selectorPosition)
@@ -49,12 +42,10 @@ systems.gameplay.state.createSelectPositionToMoveToState = function(self, gameOb
             -- if(sequencesHaveTheSameValues(selectorPosition, self.selectedUnit.mapPosition)) selectorColor = colorEnum.yellow
 
             systems.messenger:sendMessage({
-                type = messageTypesEnum.renderUI,
-                value = {
-                    uiElement = uiElementsEnum.highlightPositions,
-                    color = selectorColor,
-                    positions = {selectorPosition}
-                }
+                messageTypesEnum.renderUI,
+                uiElementsEnum.highlightPositions,
+                selectorColor,
+                {selectorPosition}
             })
         end,
 
@@ -69,22 +60,18 @@ systems.gameplay.state.createSelectPositionToMoveToState = function(self, gameOb
                 self.selectedUnit.previousPosition = makeTupleCopy(self.selectedUnit.mapPosition)
                 self.gameObjectManager.unitManager:moveUnit(self.selectedUnit, selectorPosition)
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.setNewGameplayState,
-                    value = {
-                        newStateName = gameplayStateEnum.actionMenu,
-                        unit = self.selectedUnit
-                    }
+                    messageTypesEnum.setNewGameplayState,
+                    gameplayStateEnum.actionMenu,
+                    self.selectedUnit
                 })
             end
         end,
 
         cancel = function(self, selectorPosition)
             systems.messenger:sendMessage({
-                type = messageTypesEnum.setNewGameplayState,
-                value = {
-                    newStateName = gameplayStateEnum.selectUnitToAct,
-                    selectorPosition = selectorPosition
-                }
+                messageTypesEnum.setNewGameplayState,
+                gameplayStateEnum.selectUnitToAct,
+                selectorPosition
             })
         end
     }

@@ -3,8 +3,8 @@ function systems.controllers:createStartTurnController()
         update = function(self)
             if (btnp(controllerEnum.o) or btnp(controllerEnum.x)) then
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.action,
-                    value = actionsEnum.confirm
+                    messageTypesEnum.action,
+                    actionsEnum.confirm
                 })
             end
         end,

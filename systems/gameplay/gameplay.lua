@@ -9,30 +9,30 @@ systems.gameplay = {
             end,
 
             receiveMessage = function(self, message)
-                if(message.type == messageTypesEnum.setNewGameplayState) then self:setNewGameplayState(message.value)
+                if(message[1] == messageTypesEnum.setNewGameplayState) then self:setNewGameplayState(message)
                 elseif(self.state and self.state.receiveMessage) then self.state:receiveMessage(message)
                 end 
             end,
 
             setNewGameplayState = function(self, payload)
-                if(payload.newStateName == gameplayStateEnum.selectUnitToAct) then
-                    local newState = systems.gameplay.state:createSelectUnitToActState(self.gameObjectManager, payload.selectorPosition)
+                if(payload[2] == gameplayStateEnum.selectUnitToAct) then
+                    local newState = systems.gameplay.state:createSelectUnitToActState(self.gameObjectManager, payload[3])
                     self.state = newState
                 end
-                if(payload.newStateName == gameplayStateEnum.newTurn) then
-                    local newState = systems.gameplay.state:createNewTurnState(self.gameObjectManager, payload.firstTurn)
+                if(payload[2] == gameplayStateEnum.newTurn) then
+                    local newState = systems.gameplay.state:createNewTurnState(self.gameObjectManager, payload[3])
                     self.state = newState
                 end
-                if(payload.newStateName == gameplayStateEnum.actionMenu) then
-                    local newState = systems.gameplay.state:createActionMenuState(self.gameObjectManager, payload.unit)
+                if(payload[2] == gameplayStateEnum.actionMenu) then
+                    local newState = systems.gameplay.state:createActionMenuState(self.gameObjectManager, payload[3])
                     self.state = newState
                 end
-                if(payload.newStateName == gameplayStateEnum.selectPositionToMoveTo) then
-                    local newState = systems.gameplay.state:createSelectPositionToMoveToState(self.gameObjectManager, payload.unit)
+                if(payload[2] == gameplayStateEnum.selectPositionToMoveTo) then
+                    local newState = systems.gameplay.state:createSelectPositionToMoveToState(self.gameObjectManager[3])
                     self.state = newState
                 end
-                if(payload.newStateName == gameplayStateEnum.selectUnitInActionRange) then
-                    local newState = systems.gameplay.state:createSelectUnitInActionRangeState(self.gameObjectManager, payload.actingUnit, payload.action)
+                if(payload[2] == gameplayStateEnum.selectUnitInActionRange) then
+                    local newState = systems.gameplay.state:createSelectUnitInActionRangeState(self.gameObjectManager, payload[3], payload[4])
                     self.state = newState
                 end
             end

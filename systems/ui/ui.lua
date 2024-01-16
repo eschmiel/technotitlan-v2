@@ -2,15 +2,14 @@ systems.ui = {
     createUISystem = function(self)
         local system = {
             receiveMessage = function(self, message)
-                if(message.type == messageTypesEnum.renderUI) then
-                    local data = message.value
-                    if(data.uiElement == uiElementsEnum.highlightPositions) modules.ui.positions:highlightPositions(data.positions, data.color)
-                    if(data.uiElement == uiElementsEnum.unitDetails) systems.ui.unitDetailsBottomBar:draw(data.unit, 0, 104)
-                    if(data.uiElement == uiElementsEnum.newTurnStartNotice) systems.ui:createNewTurnStartNotice()
-                    if(data.uiElement == uiElementsEnum.unitActionMenu) systems.ui:renderUnitActionMenu({60, 60}, data.unit, data.selectedAction )
-                    if(data.uiElement == uiElementsEnum.userPrivilegesRevoked) systems.ui:createUserPrivilegesRevokedNotice()
-                    if(data.uiElement == uiElementsEnum.userPrivilegesGranted) systems.ui:createUserPrivilegesGrantedNotice()
-                    if(data.uiElement == uiElementsEnum.userLoggingIn) systems.ui:createUserLoggingInNotice(data.user)
+                if(message[1] == messageTypesEnum.renderUI) then
+                    if(message[2].uiElement == uiElementsEnum.highlightPositions) modules.ui.positions:highlightPositions(message[4], message[3])
+                    if(message[2] == uiElementsEnum.unitDetails) systems.ui.unitDetailsBottomBar:draw(message[3], 0, 104)
+                    if(message[2] == uiElementsEnum.newTurnStartNotice) systems.ui:createNewTurnStartNotice()
+                    if(message[2] == uiElementsEnum.unitActionMenu) systems.ui:renderUnitActionMenu({60, 60}, message[3], message[4] )
+                    if(message[2] == uiElementsEnum.userPrivilegesRevoked) systems.ui:createUserPrivilegesRevokedNotice()
+                    if(message[2] == uiElementsEnum.userPrivilegesGranted) systems.ui:createUserPrivilegesGrantedNotice()
+                    if(message[2] == uiElementsEnum.userLoggingIn) systems.ui:createUserLoggingInNotice(message[3])
                 end
             end
         }

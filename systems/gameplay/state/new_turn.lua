@@ -1,9 +1,7 @@
 systems.gameplay.state.createNewTurnState = function(self, gameObjectManager, firstTurn)
     systems.messenger:sendMessage({
-        type = messageTypesEnum.setNewController,
-        value = {
-            controller = controllersEnum.startTurn
-        }
+        messageTypesEnum.setNewController,
+        controllersEnum.startTurn
     })
 
     local state = {
@@ -13,13 +11,13 @@ systems.gameplay.state.createNewTurnState = function(self, gameObjectManager, fi
 
         update = function(self)
             systems.messenger:sendMessage({
-                type = messageTypesEnum.renderUI,
-                value = self.currentNotice
+                messageTypesEnum.renderUI,
+                self.currentNotice
             })
         end,
 
         receiveMessage = function(self, message)
-            if(message.type == messageTypesEnum.action and message.value == actionsEnum.confirm) then
+            if(message[1] == messageTypesEnum.action and message[2] == actionsEnum.confirm) then
                 if(self.currentNotice.uiElement == uiElementsEnum.userPrivilegesRevoked) then
                     self.activeFaction = self.gameObjectManager.unitManager:goToNextFaction()
                     self.currentNotice = {
@@ -30,10 +28,8 @@ systems.gameplay.state.createNewTurnState = function(self, gameObjectManager, fi
                     if(self.activeFaction.isPlayer) then self.currentNotice = { uiElement = uiElementsEnum.userPrivilegesGranted } end
                 elseif(self.currentNotice.uiElement == uiElementsEnum.userPrivilegesGranted) then
                     systems.messenger:sendMessage({
-                        type = messageTypesEnum.setNewGameplayState,
-                        value = {
-                            newStateName = gameplayStateEnum.selectUnitToAct
-                        }
+                        messageTypesEnum.setNewGameplayState,
+                        gameplayStateEnum.selectUnitToAct
                     })
                 end
             end

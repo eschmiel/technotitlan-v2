@@ -1,10 +1,8 @@
 systems.gameplay.state.createActionMenuState = function(self, gameObjectManager, unit)
     systems.messenger:sendMessage({
-        type = messageTypesEnum.setNewController,
-        value = {
-            controller = controllersEnum.menu,
-            setupData = {numberOfOptions = #unit.actions}
-        }
+        messageTypesEnum.setNewController,
+        controllersEnum.menu,
+        #unit.actions
     })
 
     local state = {
@@ -12,30 +10,26 @@ systems.gameplay.state.createActionMenuState = function(self, gameObjectManager,
         selectedUnit = unit,
 
         receiveMessage = function(self, message)
-            if(message.type == messageTypesEnum.selectedOption) self:displayActionMenu(message.value)
-            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.select) self:select(message.value.selected)
-            if(message.type == messageTypesEnum.action and message.value.action == actionsEnum.cancel) self:cancel()
+            if(message[1] == messageTypesEnum.selectedOption) self:displayActionMenu(message[2])
+            if(message[1] == messageTypesEnum.action and message[3] == actionsEnum.select) self:select(message[4])
+            if(message[1] == messageTypesEnum.action and message[3] == actionsEnum.cancel) self:cancel()
         end,
 
         displayActionMenu = function(self, selectedAction)
             local positionsInRange = self.gameObjectManager.unitManager:getMapPositionsInActionRange(self.selectedUnit, self.selectedUnit.actions[selectedAction])
             systems.messenger:sendMessage({
-                type = messageTypesEnum.renderUI,
-                value = {
-                    uiElement = uiElementsEnum.highlightPositions,
-                    color = colorEnum.magenta,
-                    positions = positionsInRange
-                }
+                messageTypesEnum.renderUI,
+                uiElementsEnum.highlightPositions,
+                colorEnum.magenta,
+                positionsInRange
             })
 
             systems.messenger:sendMessage({
-                type = messageTypesEnum.renderUI,
-                value = {
-                    uiElement = uiElementsEnum.unitActionMenu,
-                    pixelPosition = {60,60},
-                    unit = self.selectedUnit,
-                    selectedAction = selectedAction
-                }
+                messageTypesEnum.renderUI,
+                uiElementsEnum.unitActionMenu,
+                {60,60},
+                self.selectedUnit,
+                selectedAction
             })
         end,
 
@@ -44,21 +38,17 @@ systems.gameplay.state.createActionMenuState = function(self, gameObjectManager,
                 self.gameObjectManager.unitManager:exhaust(self.selectedUnit)
 
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.setNewGameplayState,
-                    value = {
-                        newStateName = gameplayStateEnum.selectUnitToAct,
-                        selectorPosition = makeTupleCopy(self.selectedUnit.mapPosition)
-                    }
+                    messageTypesEnum.setNewGameplayState,
+                    gameplayStateEnum.selectUnitToAct,
+                    makeTupleCopy(self.selectedUnit.mapPosition)
                 })
             elseif(self.selectedUnit.actions[selected] == unitActionsEnum.cancel) then self:cancel()
             else
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.setNewGameplayState,
-                    value = {
-                        newStateName = gameplayStateEnum.selectUnitInActionRange,
-                        actingUnit = self.selectedUnit,
-                        action = self.selectedUnit.actions[selected]
-                    }
+                    messageTypesEnum.setNewGameplayState,
+                    gameplayStateEnum.selectUnitInActionRange,
+                    self.selectedUnit,
+                    self.selectedUnit.actions[selected]    
                 })
             end
 
@@ -68,11 +58,9 @@ systems.gameplay.state.createActionMenuState = function(self, gameObjectManager,
         cancel = function(self)
             self.gameObjectManager.unitManager:moveUnit(self.selectedUnit, makeTupleCopy(self.selectedUnit.previousPosition))
             systems.messenger:sendMessage({
-                type = messageTypesEnum.setNewGameplayState,
-                value = {
-                    newStateName = gameplayStateEnum.selectPositionToMoveTo,
-                    unit = self.selectedUnit
-                }
+                messageTypesEnum.setNewGameplayState,
+                gameplayStateEnum.selectPositionToMoveTo,
+                self.selectedUnit
             })
         end
 

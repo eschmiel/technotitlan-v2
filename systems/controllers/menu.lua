@@ -10,26 +10,22 @@ function systems.controllers:createMenuController(setupData)
             if (btnp(controllerEnum.down)) self.selected += 1
             if (btnp(controllerEnum.o)) then
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.action,
-                    value = {
-                        action = actionsEnum.select,
-                        selected = self.selected
-                    }
+                    messageTypesEnum.action,
+                    actionsEnum.select,
+                    self.selected
                 })
             end
             if (btnp(controllerEnum.x)) then
                 systems.messenger:sendMessage({
-                    type = messageTypesEnum.action,
-                    value = {
-                        action = actionsEnum.cancel
-                    }
+                    messageTypesEnum.action,
+                    action = actionsEnum.cancel
                 })
             end
             
             self:loopSelected()
             systems.messenger:sendMessage({
-                type = messageTypesEnum.selectedOption,
-                value = self.selected
+                messageTypesEnum.selectedOption,
+                self.selected
             })
         end,
 
